@@ -1,10 +1,18 @@
-import HomePage from "./pages/client/HomePage";
+import { Route, Routes } from "react-router-dom";
 import "swiper/css";
+import LayoutClient from "./components/layouts/layout-client/LayoutClient";
+import HomePage from "./pages/client/HomePage";
+import ProductDetail from "./pages/client/productDetail";
 
 function App() {
   return (
     <>
-      <HomePage></HomePage>
+      <Routes>
+        <Route path="/" element={<LayoutClient />}>
+          <Route index element={<HomePage />}></Route>
+          <Route path="/productDetail" element={<ProductDetail />}></Route>
+        </Route>
+      </Routes >
     </>
   );
 }
