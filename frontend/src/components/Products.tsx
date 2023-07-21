@@ -25,10 +25,16 @@ const Products = () => {
           </div>
         </div>
         <div className="product-list flex justify-between flex-wrap">
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -43,10 +49,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -61,10 +73,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -79,10 +97,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -97,10 +121,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -115,10 +145,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -133,10 +169,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">
@@ -151,10 +193,16 @@ const Products = () => {
               </p>
             </div>
           </div>
-          <div className="product-item w-[263px] mb-[75px]">
+          <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
               <Link to="">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
+              </Link>
+              <Link
+                to=""
+                className="add-to-cart-btn absolute bottom-[77px] left-0 w-full bg-primary opacity-0 text-white text-center py-2 text-lg font-semibold transition-opacity"
+              >
+                Thêm vào giỏ hàng
               </Link>
             </div>
             <div className="text-center">

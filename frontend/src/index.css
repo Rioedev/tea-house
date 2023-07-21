@@ -93,3 +93,6 @@ body {
   color: white;
   border: none;
 }
+.product-item:hover .add-to-cart-btn {
+  opacity: 1;
+}
