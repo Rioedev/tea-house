@@ -114,7 +114,7 @@ const Header = () => {
             <Link to="#" className="category-nav hover:text-primary">
               Sản phẩm
             </Link>
-            <div className="category-menu opacity-0 z-10 invisible absolute bg-white shadow-md py-2 px-4 w-[250px] rounded-md top-full left-0 transition-all duration-300">
+            <div className="category-menu opacity-0 z-10 invisible absolute bg-white shadow-xl py-2 px-4 w-[250px] rounded-md top-full left-0 transition-all duration-300">
               <ul className="product-item">
                 <li className="mb-3 hover:text-primary">
                   <Link to="">Cà Phê</Link>
@@ -125,7 +125,7 @@ const Header = () => {
                 <li className="mb-3 hover:text-primary">
                   <Link to="">Smoothies</Link>
                 </li>
-                <li className="mb-3 hover:text-primary">
+                <li className="mb-1 hover:text-primary">
                   <Link to="">Trà hoa quả</Link>
                 </li>
               </ul>
