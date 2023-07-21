@@ -10,6 +10,7 @@ const Category = () => {
           Danh mục sản phẩm
         </h1>
       </div>
+
       <div className="category-list mb-12">
         <Swiper
           grabCursor={"true"}

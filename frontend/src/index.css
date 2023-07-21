@@ -7,11 +7,13 @@
 *:after {
   box-sizing: border-box;
 }
+
 * {
   margin: 0;
   padding: 0;
   font: inherit;
 }
+
 img,
 picture,
 svg,
@@ -19,18 +21,21 @@ video {
   display: block;
   max-width: 100%;
 }
+
 input,
 select,
 textarea {
   background-color: transparent;
   outline: none;
 }
+
 button {
   cursor: pointer;
   background-color: transparent;
   outline: none;
   border: 0;
 }
+
 body {
   min-height: 100vh;
   font-weight: 400;
@@ -47,52 +52,70 @@ body {
   max-width: 1155px;
   margin: 0 auto;
 }
-.category-nav:hover + .category-menu,
+
+.category-nav:hover+.category-menu,
 .category-menu:hover {
   opacity: 1;
   visibility: visible;
   transform: translateY(8px);
 }
-.acc:hover + .acc-verify,
+
+.acc:hover+.acc-verify,
 .acc-verify:hover {
   opacity: 1;
   visibility: visible;
   transform: translateY(8px);
 }
+
 .footer {
   background-image: url(../public/bg_footer.png);
 }
+
 .home-why {
   background-image: url(../public/bg_why.png);
   background-repeat: no-repeat;
 }
+
 .category-list .swiper-slide {
   user-select: none;
   width: 250px;
 }
+
 .blogs-list .swiper-slide {
   user-select: none;
   width: 345px;
 }
+
 .swiper-pagination-bullet {
   width: 8px;
   height: 8px;
-  background-color: #999; /* Màu sắc của điểm điều hướng không được chọn */
-  opacity: 1; /* Độ mờ của các điểm điều hướng chưa được chọn */
+  background-color: #999;
+  /* Màu sắc của điểm điều hướng không được chọn */
+  opacity: 1;
+  /* Độ mờ của các điểm điều hướng chưa được chọn */
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #ff0000; /* Màu sắc của điểm điều hướng được chọn */
+  background-color: #ff0000;
+  /* Màu sắc của điểm điều hướng được chọn */
 }
 
 .products {
   background-image: url(../public/bg_menu.png);
 }
+
 .tab-active {
   background-color: #4d8a54;
   color: white;
   border: none;
 }
+
 .product-item:hover .add-to-cart-btn {
   opacity: 1;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

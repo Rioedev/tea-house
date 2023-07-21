@@ -27,7 +27,7 @@ const Products = () => {
         <div className="product-list flex justify-between flex-wrap">
           <div className="product-item w-[263px] mb-[75px] relative">
             <div className="border border-gray-200 mb-5">
-              <Link to="">
+              <Link to="/productDetail">
                 <img src="/6.png" className="w-[261px] h-[261px]" />
               </Link>
               <Link

@@ -132,7 +132,7 @@ const Header = () => {
             </div>
           </li>
         </ul>
-        <Link to="">
+        <Link to="/">
           <img src="/logo.png" alt="" />
         </Link>
         <ul className="menu-right flex items-center gap-8 font-bold">
