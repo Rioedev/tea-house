@@ -1,9 +1,12 @@
-import ProductDetail from "./components/productDetail";
+import HomePage from "./pages/client/HomePage";
+import "swiper/css";
 
 function App() {
   return (
-    <ProductDetail></ProductDetail>
-  )
+    <>
+      <HomePage></HomePage>
+    </>
+  );
 }
 
 export default App;
