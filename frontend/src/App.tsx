@@ -1,5 +1,9 @@
+import ProductDetail from "./components/productDetail";
+
 function App() {
-  return <></>;
+  return (
+    <ProductDetail></ProductDetail>
+  )
 }
 
 export default App;
