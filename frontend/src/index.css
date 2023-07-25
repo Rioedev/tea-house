@@ -53,14 +53,14 @@ body {
   margin: 0 auto;
 }
 
-.category-nav:hover+.category-menu,
+.category-nav:hover + .category-menu,
 .category-menu:hover {
   opacity: 1;
   visibility: visible;
   transform: translateY(8px);
 }
 
-.acc:hover+.acc-verify,
+.acc:hover + .acc-verify,
 .acc-verify:hover {
   opacity: 1;
   visibility: visible;
@@ -68,11 +68,11 @@ body {
 }
 
 .footer {
-  background-image: url(../public/bg_footer.png);
+  background-image: url(/bg_footer.png);
 }
 
 .home-why {
-  background-image: url(../public/bg_why.png);
+  background-image: url(/bg_why.png);
   background-repeat: no-repeat;
 }
 
@@ -101,7 +101,7 @@ body {
 }
 
 .products {
-  background-image: url(../public/bg_menu.png);
+  background-image: url(/bg_menu.png);
 }
 
 .tab-active {
