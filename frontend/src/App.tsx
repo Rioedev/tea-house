@@ -8,6 +8,7 @@ import RegisterPage from "./pages/client/RegisterPage";
 import CartPage from "./pages/client/CartPage";
 import ProductList from "./pages/client/ProductList";
 import Menus from "./pages/client/Menus";
+import LayoutAdmin from "./components/layouts/layout-admin/LayoutAdmin";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route path="/product-all" element={<ProductList />}></Route>
           <Route path="/menus" element={<Menus />}></Route>
         </Route>
-      </Routes>
+        <Route path="/admin" element={<LayoutAdmin />}></Route>
+      </Routes >
     </>
   );
 }
