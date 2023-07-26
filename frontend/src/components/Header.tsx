@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="">
+    <div className="border-b-[1px]">
       <div className="bg-[#4d8a54] text-white text-sm py-2">
         <div className="container flex justify-between">
           <div className="flex items-center gap-2">
@@ -65,16 +65,16 @@ const Header = () => {
               <div className="acc-verify opacity-0 text-black invisible absolute w-[110px] bg-white shadow-md py-2 px-4 rounded-md top-full left-0 transition-all duration-300">
                 <ul className="product-item">
                   <li className="mb-2 font-semibold hover:text-primary">
-                    <Link to="">Đăng nhập</Link>
+                    <Link to="/login">Đăng nhập</Link>
                   </li>
                   <li className=" font-semibold hover:text-primary">
-                    <Link to="">Đăng ký</Link>
+                    <Link to="/register">Đăng ký</Link>
                   </li>
                 </ul>
               </div>
             </div>
             <div className="nav_menu-bag">
-              <Link to="" className="flex items-center relative gap-2">
+              <Link to="/cart" className="flex items-center relative gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -101,17 +101,17 @@ const Header = () => {
       <div className="container py-[18px] flex justify-between">
         <ul className="menu-left flex items-center gap-8 font-bold">
           <li className="">
-            <Link to="#" className="hover:text-primary">
+            <Link to="/" className="hover:text-primary">
               Trang chủ
             </Link>
           </li>
           <li className="">
-            <Link to="#" className="hover:text-primary">
+            <Link to="" className="hover:text-primary">
               Giới thiệu
             </Link>
           </li>
           <li className="relative">
-            <Link to="#" className="category-nav hover:text-primary">
+            <Link to="/product-all" className="category-nav hover:text-primary">
               Sản phẩm
             </Link>
             <div className="category-menu opacity-0 z-10 invisible absolute bg-white shadow-xl py-2 px-4 w-[250px] rounded-md top-full left-0 transition-all duration-300">
@@ -137,17 +137,17 @@ const Header = () => {
         </Link>
         <ul className="menu-right flex items-center gap-8 font-bold">
           <li className="">
-            <Link to="#" className="hover:text-primary">
+            <Link to="" className="hover:text-primary">
               Tin tức
             </Link>
           </li>
           <li className="">
-            <Link to="#" className="hover:text-primary">
+            <Link to="menus" className="hover:text-primary">
               Thực đơn
             </Link>
           </li>
           <li className="">
-            <Link to="#" className="hover:text-primary">
+            <Link to="" className="hover:text-primary">
               Liên hệ
             </Link>
           </li>
