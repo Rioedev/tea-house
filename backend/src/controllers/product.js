@@ -8,10 +8,15 @@ export const getAll = async (req, res) => {
   const {
     _page = 1,
     _limit = 10,
-    _sort = "createAt",
+    _sort = "createdAt",
     _order = "asc",
     _search
   } = req.query;
+
+  const searchQuery = {};
+  if (_search) {
+    searchQuery.name = { $regex: _search, $options: "i" };
+  }
   const optinos = {
     page: _page,
     limit: _limit,
@@ -20,7 +25,7 @@ export const getAll = async (req, res) => {
     },
   };
   try {
-    const { docs: products } = await Product.paginate({}, optinos);
+    const { docs: products } = await Product.paginate(searchQuery, optinos);
     if (!products) {
       return res.status(404).json({
         message: "Product not found",

@@ -11,7 +11,7 @@ export const checkPermission = async (req, res, next) => {
     });
   }
 
-  jwt.verify(token, "banThayDat", async (err, payload) => {
+  jwt.verify(token, "teaHouse", async (err, payload) => {
     if (err) {
       if (err.name === "JsonWebTokenError") {
         return res.status(400).json({
