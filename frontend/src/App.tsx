@@ -18,6 +18,7 @@ import UpdateCategory from "./pages/admin/category/UpdateCategory";
 import ListUser from "./pages/admin/user/ListUser";
 import ListOrder from "./pages/admin/order/ListOrder";
 import UpdateOrder from "./pages/admin/order/UpdateOrder";
+import Checkout from "./pages/client/Checkout";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/product-all" element={<ProductList />}></Route>
           <Route path="/menus" element={<Menus />}></Route>
         </Route>
+        <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route path="product" element={<ListProduct />}></Route>
           <Route path="add-product" element={<AddProduct />}></Route>

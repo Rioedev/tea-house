@@ -48,6 +48,11 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.container-2 {
+  max-width: 1210px;
+  margin: 0 auto;
+}
+
 .container {
   max-width: 1155px;
   margin: 0 auto;

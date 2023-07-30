@@ -45,7 +45,7 @@ const Header = () => {
               </svg>
             </div>
             <div className="nav_menu-account relative">
-              <Link to="" className="flex acc items-center gap-2">
+              <p className="flex acc items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -61,7 +61,7 @@ const Header = () => {
                   />
                 </svg>
                 Tài khoản
-              </Link>
+              </p>
               <div className="acc-verify opacity-0 text-black invisible absolute w-[110px] bg-white shadow-md py-2 px-4 rounded-md top-full left-0 transition-all duration-300">
                 <ul className="product-item">
                   <li className="mb-2 font-semibold hover:text-primary">
