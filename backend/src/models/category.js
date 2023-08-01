@@ -4,6 +4,7 @@ import mongoosePaginate from "mongoose-paginate-v2";
 const categorySchema = new mongoose.Schema(
   {
     name: String,
+    image: String,
     products: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true, versionKey: false }
