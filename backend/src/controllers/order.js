@@ -8,7 +8,7 @@ export const getAll = async (req, res) => {
     const {
         _page = 1,
         _limit = 10,
-        _sort = "createAt",
+        _sort = "createdAt",
         _order = "asc",
     } = req.query;
     const optinos = {
