@@ -1,12 +1,24 @@
 import BreadCrumb from "@/components/BreadCrumb";
+import { IRootState } from "@/store";
+import { fetchOneCategoryAction } from "@/store/categories/action";
+import { fetOneProductAction } from "@/store/product/Action";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { Dispatch } from "redux";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 const ProductDetail = () => {
+  const { id } = useParams()
+  const dispatch: Dispatch<any> = useDispatch();
+  const getOneProduct = useSelector((state: IRootState) => state.product)
+  // const getOneCategory = useSelector((state: IRootState) => state.category)
+  console.log(getOneProduct.product.categoryId);
+  useEffect(() => {
+    dispatch(fetOneProductAction(id))
+    // dispatch(fetchOneCategoryAction(getOneProduct.product.categoryId))
+  }, [dispatch])
   const [count, setCount] = useState<number>(1);
-  console.log(count);
-
   useEffect(() => {
     if (count < 1) {
       setCount(count + 1);
@@ -21,41 +33,28 @@ const ProductDetail = () => {
             <div className="overflow-hidden max-w-[500px]">
               <img
                 className="w-full border border-1px-[#ccc]"
-                src="/6.png"
+                src={getOneProduct.product.images?.[0]}
                 alt=""
               />
               <div className="flex flex-start gap-4 mt-4 w-full overflow-hidden">
-                <img
-                  className="border border-1px-[#ccc] w-[84px]"
-                  src="/6.png"
-                  alt=""
-                />
-                <img
-                  className="border border-1px-[#ccc] w-[84px]"
-                  src="/6.png"
-                  alt=""
-                />
-                <img
-                  className="border border-1px-[#ccc] w-[84px]"
-                  src="/6.png"
-                  alt=""
-                />
-                <img
-                  className="border border-1px-[#ccc] w-[84px]"
-                  src="/6.png"
-                  alt=""
-                />
+                {getOneProduct?.product?.images?.map((img, index) => {
+                  return <img key={index}
+                    className="border border-1px-[#ccc] w-[84px]"
+                    src={`${img}`}
+                    alt=""
+                  />
+                })}
               </div>
             </div>
           </div>
           <form className="pl-[50px]">
-            <h1 className="font-bold text-[24px] uppercase">Trà Phúc bồn tử</h1>
+            <h1 className="font-bold text-[24px] uppercase">{getOneProduct.product.name}</h1>
             <div className="py-5">
               <i className="italic">Mô tả đang cập nhật</i>
               <p className="text-[16px] pt-2 pb-4">
                 Giá:{" "}
                 <span className="text-[24px] text-[#4d8a54] font-bold pl-2">
-                  40.000₫
+                  {getOneProduct.product.price}
                 </span>
               </p>
               <div className="mt-[15px] flex items-center">
@@ -136,10 +135,7 @@ const ProductDetail = () => {
             </h1>
             <div className="py-[15px] text-[#282828]  text-[16px]">
               <p className="mb-[15px] leading-7">
-                Vải là một loại quả được nhiều người yêu thích không chỉ khi ăn
-                quả hay khi chế biến thành món trà vải thơm ngon. Nhân lúc mùa
-                vải đang rộ các bạn hãy thử tự làm cho mình những cốc trà vải
-                thật ngon để thưởng thức trong hè nha.
+                {getOneProduct.product.description_long}
               </p>
               <p className="mb-[15px] leading-6">
                 Nguyên liệu pha trà vải cho 3 người :
@@ -172,7 +168,7 @@ const ProductDetail = () => {
         <div className="text-center mb-[56px]">
           <img src="/title_base.png" className="mx-auto" alt="" />
           <h1 className="uppercase tracking-tighter text-[40px] font-bold">
-            Có thể bạn thích
+            Sản phẩm cùng loại
           </h1>
         </div>
         <div className="category-list mb-12">
