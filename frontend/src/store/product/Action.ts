@@ -7,13 +7,13 @@ export interface IProduct {
     price: number
     description_long: string
     images: string[]
-    categoryId: string
+    categoryId: { _id: string, products: IProduct[] }
     deleted: boolean
 }
-
 interface IGetProductPayload {
     products: IProduct[]
 }
+
 
 interface IgetOneProductPayload {
     product: IProduct

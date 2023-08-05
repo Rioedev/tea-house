@@ -16,7 +16,7 @@ const initOneProductState: IOneProductState = {
 
 type ICombinedProductAction = GetProductsAction | GetProductAction
 type ICombinedProductState = IProductState | IOneProductState
-const productReducer = (state: ICombinedProductState = initProductState && initOneProductState, action: ICombinedProductAction) => {
+const productReducer = (state: ICombinedProductState = initProductState, action: ICombinedProductAction) => {
     switch (action.type) {
         case "getAll-product":
             state = {

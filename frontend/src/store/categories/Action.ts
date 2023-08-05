@@ -1,6 +1,5 @@
-import { getAll } from "@/API/Products"
 import { getListCategoryDispatchType, getOneCategoryDispatchType } from "./Type"
-import { getAllCategory, getOneCateogrory } from "@/API/Categories"
+import { getAllCategory, getOneCategory } from "@/API/Categories"
 import { IProduct } from "../product/Action"
 
 export interface ICategory {
@@ -46,11 +45,11 @@ export const fetchCategoryAction = () => {
 export const fetchOneCategoryAction = (id: string) => {
     return async (dispatch: getOneCategoryDispatchType) => {
         try {
-            const { data } = await getOneCateogrory(id)
+            const { data: { category } } = await getOneCategory(id)
             dispatch({
                 type: "getOne-category",
                 payload: {
-                    category: data
+                    category: category
                 }
             })
         } catch (error) {

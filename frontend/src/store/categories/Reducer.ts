@@ -1,4 +1,4 @@
-import { GetCategoryAction, GetOneCategoryAction, ICategory } from "./action";
+import { GetCategoryAction, GetOneCategoryAction, ICategory } from "./Action"
 
 export interface ICategoryState {
     categories: ICategory[]

@@ -1,5 +1,5 @@
 import { IRootState } from "@/store";
-import { fetchCategoryAction } from "@/store/categories/action";
+import { fetchCategoryAction } from "@/store/categories/Action";
 import { fetchProductAction } from "@/store/product/Action";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const Products = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const productState = useSelector((state: IRootState) => state.products)
   const categoryState = useSelector((state: IRootState) => state.categories)
-  console.log(categoryState);
+  console.log(productState);
 
   useEffect(() => {
     dispatch(fetchProductAction())

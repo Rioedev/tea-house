@@ -1,39 +1,53 @@
 import BreadCrumb from "@/components/BreadCrumb";
 import { IRootState } from "@/store";
-import { fetchOneCategoryAction } from "@/store/categories/action";
-import { fetOneProductAction } from "@/store/product/Action";
+import CartAction from "@/store/order/Action";
+import { fetchOneCategoryAction } from "@/store/categories/Action";
+import { IProduct, fetOneProductAction } from "@/store/product/Action";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 import { Swiper, SwiperSlide } from "swiper/react";
+import CartPage from "./CartPage";
 const ProductDetail = () => {
   const { id } = useParams()
   const dispatch: Dispatch<any> = useDispatch();
   const getOneProduct = useSelector((state: IRootState) => state.product)
-  // const getOneCategory = useSelector((state: IRootState) => state.category)
-  console.log(getOneProduct.product.categoryId);
+  const getOneCategory = useSelector((state: IRootState) => state.category)
+
   useEffect(() => {
-    dispatch(fetOneProductAction(id))
-    // dispatch(fetchOneCategoryAction(getOneProduct.product.categoryId))
-  }, [dispatch])
+    dispatch(fetOneProductAction(id));
+  }, [dispatch, id]);
+
+  // Fetch category data whenever the product data changes
+  useEffect(() => {
+    if (getOneProduct?.product?.categoryId?._id) {
+      dispatch(fetchOneCategoryAction(getOneProduct.product.categoryId._id));
+    }
+  }, [dispatch, getOneProduct]);
+
   const [count, setCount] = useState<number>(1);
   useEffect(() => {
     if (count < 1) {
       setCount(count + 1);
     }
   }, [count]);
+  const handleAddCart = (product: IProduct) => {
+    dispatch(CartAction(product))
+  }
   return (
     <>
       <div className="container">
         <BreadCrumb></BreadCrumb>
+        {/* <CartPage></CartPage> */}
         <div className="flex py-[28px]">
           <div className="flex flex-col">
             <div className="overflow-hidden max-w-[500px]">
               <img
                 className="w-full border border-1px-[#ccc]"
-                src={getOneProduct.product.images?.[0]}
+                src={getOneProduct?.product?.images?.[0]}
                 alt=""
               />
               <div className="flex flex-start gap-4 mt-4 w-full overflow-hidden">
@@ -48,13 +62,13 @@ const ProductDetail = () => {
             </div>
           </div>
           <form className="pl-[50px]">
-            <h1 className="font-bold text-[24px] uppercase">{getOneProduct.product.name}</h1>
+            <h1 className="font-bold text-[24px] uppercase">{getOneProduct?.product?.name}</h1>
             <div className="py-5">
               <i className="italic">Mô tả đang cập nhật</i>
               <p className="text-[16px] pt-2 pb-4">
                 Giá:{" "}
                 <span className="text-[24px] text-[#4d8a54] font-bold pl-2">
-                  {getOneProduct.product.price}
+                  {getOneProduct?.product?.price}
                 </span>
               </p>
               <div className="mt-[15px] flex items-center">
@@ -90,6 +104,7 @@ const ProductDetail = () => {
                 <button
                   type="button"
                   className="min-w-[250px] px-[22px] py-3 mr-[20px] text-[#4d8a54] border border-[#4d8a54] border-solid rounded-[40px] text-[18px] hover:bg-[#4d8a54] hover:text-[#fff] transition-all ease-linear flex items-center justify-center bg-[#F3FFF4] font-bold"
+                  onClick={e => handleAddCart(getOneProduct.product)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +150,7 @@ const ProductDetail = () => {
             </h1>
             <div className="py-[15px] text-[#282828]  text-[16px]">
               <p className="mb-[15px] leading-7">
-                {getOneProduct.product.description_long}
+                {getOneProduct?.product?.description_long}
               </p>
               <p className="mb-[15px] leading-6">
                 Nguyên liệu pha trà vải cho 3 người :
@@ -178,126 +193,28 @@ const ProductDetail = () => {
             slidesPerView={"auto"}
             pagination={{ clickable: true, dynamicBullets: true }}
           >
-            <SwiperSlide>
-              <Link to="" className="text-center">
-                <img
-                  src="/6.png"
-                  className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
-                  alt=""
-                />
-                <div className="pt-[20px] text-center">
-                  <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis">
-                    Bánh cà phê phô mai phô mai
-                  </h2>
-                  <p className="text-[18px] font-bold pb-[10px] leading-6">
-                    <span className="font-medium pr-[5px]">Giá:</span>25.000đ{" "}
-                    <del className="text-[14px] opacity-40 px-[10px]">
-                      30.000đ
-                    </del>
-                  </p>
-                </div>
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="" className="text-center">
-                <img
-                  src="https://bizweb.dktcdn.net/thumb/large/100/415/010/products/20.jpg?v=1608880067563"
-                  className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
-                  alt=""
-                />
-                <div className="pt-[20px] text-center">
-                  <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis">
-                    Bánh cà phê phô mai
-                  </h2>
-                  <p className="text-[18px] font-bold pb-[10px] leading-6">
-                    <span className="font-medium pr-[5px]">Giá:</span>25.000đ{" "}
-                    <del className="text-[14px] opacity-40 px-[10px]">
-                      30.000đ
-                    </del>
-                  </p>
-                </div>
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="" className="text-center">
-                <img
-                  src="//bizweb.dktcdn.net/thumb/large/100/415/010/products/18.jpg?v=1608879997587"
-                  className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
-                  alt=""
-                />
-                <div className="pt-[20px] text-center">
-                  <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis">
-                    Bánh cà phê phô mai
-                  </h2>
-                  <p className="text-[18px] font-bold pb-[10px] leading-6">
-                    <span className="font-medium pr-[5px]">Giá:</span>25.000đ{" "}
-                    <del className="text-[14px] opacity-40 px-[10px]">
-                      30.000đ
-                    </del>
-                  </p>
-                </div>
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="" className="text-center">
-                <img
-                  src="/6.png"
-                  className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
-                  alt=""
-                />
-                <div className="pt-[20px] text-center">
-                  <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis">
-                    Bánh cà phê phô mai
-                  </h2>
-                  <p className="text-[18px] font-bold pb-[10px] leading-6">
-                    <span className="font-medium pr-[5px]">Giá:</span>25.000đ{" "}
-                    <del className="text-[14px] opacity-40 px-[10px]">
-                      30.000đ
-                    </del>
-                  </p>
-                </div>
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="" className="text-center">
-                <img
-                  src="/6.png"
-                  className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
-                  alt=""
-                />
-                <div className="pt-[20px] text-center">
-                  <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis">
-                    Bánh cà phê phô mai
-                  </h2>
-                  <p className="text-[18px] font-bold pb-[10px] leading-6">
-                    <span className="font-medium pr-[5px]">Giá:</span>25.000đ{" "}
-                    <del className="text-[14px] opacity-40 px-[10px]">
-                      30.000đ
-                    </del>
-                  </p>
-                </div>
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link to="" className="text-center">
-                <img
-                  src="/6.png"
-                  className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
-                  alt=""
-                />
-                <div className="pt-[20px] text-center">
-                  <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] overflow-hidden whitespace-nowrap text-ellipsis">
-                    Bánh cà phê phô mai
-                  </h2>
-                  <p className="text-[18px] font-bold pb-[10px] leading-6">
-                    <span className="font-medium pr-[5px]">Giá:</span>25.000đ{" "}
-                    <del className="text-[14px] opacity-40 px-[10px]">
-                      30.000đ
-                    </del>
-                  </p>
-                </div>
-              </Link>
-            </SwiperSlide>
+            {getOneCategory?.category?.products?.map((productCate, index) => {
+              return <SwiperSlide key={index}>
+                <a href={`/productDetail/${productCate._id}`} className="text-center">
+                  <img
+                    src={productCate.images?.[0]}
+                    className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
+                    alt=""
+                  />
+                  <div className="pt-[20px] text-center">
+                    <h2 className="text-xl uppercase font-bold hover:text-primary transition-all pb-[5px] max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis">
+                      {productCate.name}
+                    </h2>
+                    <p className="text-[18px] font-bold pb-[10px] leading-6">
+                      <span className="font-medium pr-[5px]">Giá:</span>{productCate.price}{" "}
+                      <del className="text-[14px] opacity-40 px-[10px]">
+                        30.000đ
+                      </del>
+                    </p>
+                  </div>
+                </a>
+              </SwiperSlide>
+            })}
           </Swiper>
         </div>
       </div>
