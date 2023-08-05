@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "swiper/css";
+import "react-toastify/dist/ReactToastify.css";
 import LayoutClient from "./components/layouts/layout-client/LayoutClient";
 import HomePage from "./pages/client/HomePage";
 import ProductDetail from "./pages/client/productDetail";

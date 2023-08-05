@@ -5,9 +5,12 @@ const Checkout = () => {
     <div className="container-2">
       <form className="flex gap-[28px]">
         <div className="">
-          <h1 className="text-3xl text-primary font-semibold mb-5 mt-5">
+          <Link
+            to="/"
+            className="text-3xl block text-primary font-semibold mb-5 mt-5"
+          >
             Tea House
-          </h1>
+          </Link>
           <div className="flex gap-[28px]">
             <div>
               <div className="flex items-center gap-32 mb-3">
