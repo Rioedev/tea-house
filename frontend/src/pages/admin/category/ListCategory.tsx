@@ -1,6 +1,27 @@
+import { IRootState } from "@/store";
+import { fetchCategoryAction, removeCategoryAction } from "@/store/categories/Action";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
 
 const ListCategory = () => {
+  const dispatch: Dispatch<any> = useDispatch()
+  const categoryState = useSelector((state: IRootState) => state.categories)
+
+  const handleDeleteProduct = (id: string) => {
+    const cf = confirm('Bạn có xác nhận muốn xóa danh mục không ?')
+    if (cf == true) {
+      dispatch(removeCategoryAction(id)).then(() => {
+        dispatch(fetchCategoryAction())
+      })
+    }
+  }
+
+  useEffect(() => {
+    dispatch(fetchCategoryAction())
+  }, [])
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
@@ -62,49 +83,40 @@ const ListCategory = () => {
                 Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
-          {/* <tbody>
-            {products.map((product) => (
+          <tbody>
+            {categoryState?.categories?.map((category) => (
               <tr
-                key={product.id}
+                key={category._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td className="w-32 p-4">
                   <img
-                    src={product?.image}
+                    src={category.image}
                     className="rounded-2xl object-cover w-[97px] h-[97px]"
                     alt=""
                   />
                 </td>
                 <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {product.name}
+                  {category.name}
                 </td>
-                <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {product.price} ₫
-                </td>
-                <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {product.original_price} ₫
-                </td>
-                <td className="px-6 py-4">{product.brand}</td>
+                {/* <td className="px-6 py-4">{product.brand}</td>
                 <td className="px-6 py-4">{product.origin}</td>
                 <td className="px-6 py-4 max-w-[350px] whitespace-nowrap overflow-hidden text-ellipsis">
                   {product.desc}
-                </td>
+                </td> */}
                 <td className="px-6 py-4">
                   <Link
-                    to={`/admin/product/${product.id}`}
+                    to={`/admin/update-category/${category._id}`}
                     className="px-4 py-2 font-medium text-white rounded-md bg-cyan-500 shadow-cyan-500/50"
                   >
                     Edit
                   </Link>
                   <button
-                    onClick={() => handleDeleteProduct(product.id)}
+                    onClick={() => handleDeleteProduct(category._id)}
                     className="px-3 py-2 ml-3 font-medium text-white bg-red-500 rounded-md shadow-red-500/50"
                   >
                     Remove
@@ -112,7 +124,7 @@ const ListCategory = () => {
                 </td>
               </tr>
             ))}
-          </tbody> */}
+          </tbody>
         </table>
       </div>
     </div>

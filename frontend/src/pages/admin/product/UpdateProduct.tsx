@@ -1,6 +1,70 @@
-import { Link } from "react-router-dom";
+import { productForm, productSchema } from "@/model/product";
+import { IRootState } from "@/store";
+import { fetchCategoryAction } from "@/store/categories/Action";
+import { editProductAction, fetOneProductAction } from "@/store/product/Action";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Dispatch } from "redux";
 
 const UpdateProduct = () => {
+  const { id } = useParams()
+  const dispatch: Dispatch<any> = useDispatch()
+  const productState = useSelector((state: IRootState) => state.product)
+  const categotyState = useSelector((state: IRootState) => state.categories)
+  console.log(productState?.product?.categoryId?._id);
+
+  const navigate = useNavigate();
+
+  // console.log(productState.product.categoryId);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<productForm>({
+    resolver: yupResolver(productSchema),
+  });
+
+  const onSubmit = async (product: productForm) => {
+    const cf = confirm('Bạn xác nhận muốn hủy đơn hàng này ?')
+    if (cf == true) {
+      try {
+        const imagesArray = product.images.split(",").map((url) => url.trim());
+        const productWithArrayImages = { ...product, images: imagesArray };
+
+        if (id) {
+          await dispatch(editProductAction(id, productWithArrayImages));
+        }
+        console.log(product);
+        navigate("/admin/product");
+        alert("Sửa sản phẩm thành công");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetOneProductAction(id));
+    dispatch(fetchCategoryAction())
+  }, [])
+
+  useEffect(() => {
+    // Khi productState thay đổi, đặt giá trị mặc định cho form
+    if (productState) {
+      setValue("name", productState.product.name); // Gán giá trị cho trường 'name'
+      setValue("price", productState.product.price); // Gán giá trị cho trường 'price'
+      setValue("images", productState.product.images); // Gán giá trị cho trường 'price'
+      setValue("categoryId", productState?.product?.categoryId?._id); // Gán giá trị cho trường 'price'
+      setValue("description_long", productState.product.description_long); // Gán giá trị cho trường 'price'
+      // Tiếp tục gán giá trị cho các trường khác (nếu có)
+    }
+  }, [productState, setValue]);
   return (
     <div className="">
       <Link
@@ -12,7 +76,7 @@ const UpdateProduct = () => {
       <h1 className="mb-10 text-3xl font-medium text-center text-white">
         Thông tin sản phẩm
       </h1>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
@@ -24,6 +88,8 @@ const UpdateProduct = () => {
             <input
               type="text"
               id="name"
+              {...register("name")}
+              // value={productState.product.name}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Tai nghe airpod"
             />
@@ -38,6 +104,8 @@ const UpdateProduct = () => {
             <input
               type="text"
               id="image"
+              {...register("images")}
+              // value={productState.product.images}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -51,36 +119,10 @@ const UpdateProduct = () => {
             <input
               type="number"
               id="price"
+              {...register("price")}
+              // value={productState.product.price}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="123.434.000"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="originalPrice"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Original Price
-            </label>
-            <input
-              type="number"
-              id="originalPrice"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="123.45.678"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="brand"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Brand
-            </label>
-            <input
-              type="text"
-              id="brand"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Apple"
             />
           </div>
           <div>
@@ -88,19 +130,17 @@ const UpdateProduct = () => {
               htmlFor="origin"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Xuất xứ
+              Danh mục
             </label>
             <select
-              id="origin"
+              id="categoryId"
+              {...register("categoryId")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option>Choose a country</option>
-              <option value="Việt Nam">Việt Nam</option>
-              <option value="Trung Quốc">Trung Quốc</option>
-              <option value="United States">United States</option>
-              <option value="Canada">Canada</option>
-              <option value="France">France</option>
-              <option value="Germany">Germany</option>
+              <option>Choose a category</option>
+              {categotyState?.categories?.map((category) => (
+                <option value={category._id} selected={category._id == productState?.product?.categoryId?._id}>{category.name}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -112,9 +152,11 @@ const UpdateProduct = () => {
             Description
           </label>
           <textarea
-            id="message"
+            id="description_long"
+            {...register("description_long")}
             className="block p-2.5 h-52 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write your thoughts here..."
+          // placeholder="Write your thoughts here..."
+          // value={productState.product.description_long}
           ></textarea>
         </div>
         <button
