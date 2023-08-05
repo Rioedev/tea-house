@@ -1,7 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { categoryForm, categorySchema } from "@/model/category";
+import { IRootState } from "@/store";
+import { addNewCategoryAction, fetchCategoryAction } from "@/store/categories/Action";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { Dispatch } from "redux";
 
 const AddCategory = () => {
+  const dispatch: Dispatch<any> = useDispatch()
+  const categotyState = useSelector((state: IRootState) => state.categories)
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<categoryForm>({
+    resolver: yupResolver(categorySchema),
+  });
+
+  const onSubmit = async (category: categoryForm) => {
+    try {
+      await dispatch(addNewCategoryAction(category));
+      // console.log(product);
+      navigate("/admin/category");
+      alert("Thêm sản phẩm thành công");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="">
       <Link
@@ -13,7 +42,7 @@ const AddCategory = () => {
       <h1 className="mb-10 text-3xl font-medium text-center text-white">
         Thông tin danh mục
       </h1>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
@@ -25,6 +54,7 @@ const AddCategory = () => {
             <input
               type="text"
               id="name"
+              {...register("name")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Tai nghe airpod"
             />
@@ -39,6 +69,7 @@ const AddCategory = () => {
             <input
               type="text"
               id="image"
+              {...register("image")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -51,7 +82,8 @@ const AddCategory = () => {
             Mô tả
           </label>
           <textarea
-            id="message"
+            id="description_long"
+            {...register("description_long")}
             className="block p-2.5 h-52 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write your thoughts here..."
           ></textarea>

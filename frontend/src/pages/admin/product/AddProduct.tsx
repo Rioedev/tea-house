@@ -1,7 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { IRootState } from "@/store";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { fetchCategoryAction } from "@/store/categories/action";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from 'react-hook-form'
+import { Dispatch } from "redux";
+import { productForm, productSchema } from "@/model/product";
+import { addNewProductAction } from "@/store/product/Action";
 
 const AddProduct = () => {
+  const dispatch: Dispatch<any> = useDispatch()
+  const categotyState = useSelector((state: IRootState) => state.categories)
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<productForm>({
+    resolver: yupResolver(productSchema),
+  });
+
+  const onSubmit = async (product: productForm) => {
+    try {
+      const imagesArray = product.images.split(",").map((url) => url.trim());
+      const productWithArrayImages = { ...product, images: imagesArray };
+      await dispatch(addNewProductAction(productWithArrayImages));
+      // console.log(product);
+      navigate("/admin/product");
+      alert("Thêm sản phẩm thành công");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    dispatch(fetchCategoryAction())
+  }, [])
   return (
     <div className="">
       <Link
@@ -13,7 +48,7 @@ const AddProduct = () => {
       <h1 className="mb-10 text-3xl font-medium text-center text-white">
         Thông tin sản phẩm
       </h1>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
@@ -25,6 +60,7 @@ const AddProduct = () => {
             <input
               type="text"
               id="name"
+              {...register("name")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Tai nghe airpod"
             />
@@ -38,7 +74,8 @@ const AddProduct = () => {
             </label>
             <input
               type="text"
-              id="image"
+              id="images"
+              {...register("images")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -52,36 +89,9 @@ const AddProduct = () => {
             <input
               type="number"
               id="price"
+              {...register("price")}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="123.434.000"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="originalPrice"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Original Price
-            </label>
-            <input
-              type="number"
-              id="originalPrice"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="123.45.678"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="brand"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Brand
-            </label>
-            <input
-              type="text"
-              id="brand"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Apple"
             />
           </div>
           <div>
@@ -89,19 +99,17 @@ const AddProduct = () => {
               htmlFor="origin"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Xuất xứ
+              Danh mục
             </label>
             <select
-              id="origin"
+              id="categoryId"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              {...register("categoryId")}
             >
-              <option>Choose a country</option>
-              <option value="Việt Nam">Việt Nam</option>
-              <option value="Trung Quốc">Trung Quốc</option>
-              <option value="United States">United States</option>
-              <option value="Canada">Canada</option>
-              <option value="France">France</option>
-              <option value="Germany">Germany</option>
+              <option>Choose a category</option>
+              {categotyState?.categories?.map((category) => (
+                <option value={category._id}>{category.name}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -113,7 +121,8 @@ const AddProduct = () => {
             Description
           </label>
           <textarea
-            id="message"
+            id="description_long"
+            {...register("description_long")}
             className="block p-2.5 h-52 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write your thoughts here..."
           ></textarea>

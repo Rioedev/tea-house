@@ -2,8 +2,23 @@ import Product from "../models/product";
 import Category from "../models/category";
 
 export const getAll = async (req, res) => {
+  // const {
+  //   _page = 1,
+  //   _limit = 100,
+  //   _sort = "createdAt",
+  //   _order = "desc",
+  // } = req.query;
+  // const options = {
+  //   page: _page,
+  //   limit: _limit,
+  //   sort: {
+  //     [_sort]: _order === "desc" ? "-1" : "1",
+  //   },
+  // };
   try {
     const categories = await Category.find();
+    // const { docs: categories } = await Category.paginate(options);
+    // console.log(categories);
     if (!categories) {
       return res.status(404).json({
         message: "Category not found",

@@ -1,4 +1,4 @@
-import { GetCategoryAction, GetOneCategoryAction, ICategory } from "./action";
+import { AddCategoryAction, DeleteCategoryAction, GetCategoryAction, GetOneCategoryAction, ICategory, UpdateCategoryAction } from "./Action";
 
 export interface ICategoryState {
     categories: ICategory[]
@@ -16,7 +16,7 @@ const initOneCategoryState: IOneCategoryState = {
     category: {} as ICategory
 }
 
-type combinedCategoryAction = GetCategoryAction | GetOneCategoryAction
+type combinedCategoryAction = GetCategoryAction | GetOneCategoryAction | AddCategoryAction | UpdateCategoryAction | DeleteCategoryAction
 type combinedCategoryState = ICategoryState | IOneCategoryState
 const categoryReducer = (state: combinedCategoryState = initCategoryState && initOneCategoryState, action: combinedCategoryAction) => {
     switch (action.type) {
@@ -29,6 +29,25 @@ const categoryReducer = (state: combinedCategoryState = initCategoryState && ini
         case "getOne-category":
             state = {
                 ...state,
+                category: action.payload.category
+            }
+            break;
+        case "add-category":
+            state = {
+                ...state,
+                category: action.payload.category
+            }
+            break;
+        case "update-category":
+            state = {
+                ...state,
+                category: action.payload.category
+            }
+            break;
+        case "delete-category":
+            state = {
+                ...state,
+                // categorys: initcategoryState.categorys.filter(category => category._id == action.payload.category._id)
                 category: action.payload.category
             }
             break;

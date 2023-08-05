@@ -127,11 +127,11 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const { error } = orderSchema.validate(req.body);
-        if (error) {
-            res.json({
-                message: error.details[0].message,
-            });
-        }
+        // if (error) {
+        //     res.json({
+        //         message: error.details[0].message,
+        //     });
+        // }
         const order = await Order.findOneAndUpdate(
             { _id: req.params.id },
             req.body,
