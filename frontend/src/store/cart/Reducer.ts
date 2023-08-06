@@ -37,7 +37,6 @@ const cartReducer = (state: ICartState = initCartState, action: AddCartAction): 
                     ...state,
                     carts: state.carts
                 }
-                // localStorage.setItem("cartItems", JSON.stringify(state.carts))
             }
             break
     }

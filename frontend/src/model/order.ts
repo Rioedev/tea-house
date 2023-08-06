@@ -6,6 +6,7 @@ export const orderSchema = Yup.object({
     phoneNumber: Yup.string().required("Trường số điện thoại là bắt buộc"),
     address: Yup.string().required("Trường địa chỉ là bắt buộc"),
     note: Yup.string().required("Trường ảnh là bắt buộc"),
+    userId: Yup.string()
     // orderDate: Yup.date().default(() => new Date()),
     // totalMoney: Yup.number()
 });

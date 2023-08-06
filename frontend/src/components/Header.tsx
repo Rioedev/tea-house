@@ -1,5 +1,8 @@
 import { IRootState } from "@/store";
-import { fetchCategoryAction, fetchOneCategoryAction } from "@/store/categories/Action";
+import {
+  fetchCategoryAction,
+  fetchOneCategoryAction,
+} from "@/store/categories/Action";
 import { fetchProducByNametAction } from "@/store/product/Action";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -9,11 +12,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 
 const Header = () => {
-  const productState = useSelector((state: IRootState) => state.products)
-  const categoryState = useSelector((state: IRootState) => state.categories)
-  const oneCategotyState = useSelector((state: IRootState) => state.category)
+  const productState = useSelector((state: IRootState) => state.products);
+  const categoryState = useSelector((state: IRootState) => state.categories);
+  const oneCategotyState = useSelector((state: IRootState) => state.category);
   const navigate = useNavigate();
-  const dispatch: Dispatch<any> = useDispatch()
+  const dispatch: Dispatch<any> = useDispatch();
   const {
     register,
     handleSubmit,
@@ -23,20 +26,20 @@ const Header = () => {
     console.log(data.name);
 
     try {
-      await dispatch(fetchProducByNametAction(data.name))
+      await dispatch(fetchProducByNametAction(data.name));
       // if (product) {
 
       // }
       alert("Tìm kiếm sản phẩm thành công");
-      navigate('/product-all')
+      navigate("/product-all");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    dispatch(fetchCategoryAction())
-  }, [])
+    dispatch(fetchCategoryAction());
+  }, []);
   return (
     <div className="border-b-[1px]">
       <div className="bg-[#4d8a54] text-white text-sm py-2">
@@ -58,17 +61,17 @@ const Header = () => {
             </svg>
             <Link to="0328911043">Hotline: 0328911043</Link>
           </div>
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="nav_menu flex items-center gap-8">
               <div className="flex bg-white items-center text-black rounded-full px-3 gap-3">
                 <input
                   type="text"
-                  {...register('name')}
+                  {...register("name")}
                   className="rounded-full px-1 py-2 outline-none border-none"
                   placeholder="Tìm kiếm ..."
                 />
                 <button>
-
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

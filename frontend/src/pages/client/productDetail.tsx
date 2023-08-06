@@ -43,7 +43,7 @@ const ProductDetail = () => {
     <>
       <div className="container">
         <BreadCrumb></BreadCrumb>
-        {/* <CartPage></CartPage> */}
+        <CartPage></CartPage>
         <div className="flex py-[28px]">
           <div className="flex flex-col">
             <div className="overflow-hidden max-w-[500px]">

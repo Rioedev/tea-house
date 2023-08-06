@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 import { useState, useEffect } from 'react'
 import { IOrder, addOrderAction } from "@/store/order/Action";
+import { IUser } from "@/store/user/Action";
 const Checkout = () => {
   const dispatch: Dispatch<any> = useDispatch()
   const categotyState = useSelector((state: IRootState) => state.categories)
@@ -16,35 +17,39 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [carts, setCarts] = useState<ICart[]>([])
   const [total, setTotal] = useState<number>(0)
+  const [user, setUser] = useState<IUser>()
   const cartStore = JSON.parse(localStorage.getItem("cartItems")!)
+  useEffect(() => {
+    setCarts(cartStore)
+  }, [])
   useEffect(() => {
     let count = 0
     carts.map((cart, index) => {
       count += cart.quantity * cart.price
     })
     setTotal(count)
-    setCarts(cartStore)
-  }, [])
+    const userStore = JSON.parse(localStorage.getItem("user")!)
+    if (userStore) {
+      setUser(userStore)
+    }
+  }, [carts])
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<orderForm>({
-    resolver: yupResolver(orderSchema),
-  });
+  } = useForm<IOrder>();
 
   const onSubmit = async (order: IOrder) => {
     try {
       const addNewOrder = { ...order };
+      console.log(addNewOrder);
       await dispatch(addOrderAction(addNewOrder));
       alert("Thêm sản phẩm thành công");
     } catch (error) {
       console.log(error);
     }
   };
-  // useEffect(() => {
-  //   dispatch(fetchCategoryAction())
-  // }, [])
+
   return (
     <div className="container-2">
       <form className="flex gap-[28px]" onSubmit={handleSubmit(onSubmit)}>
@@ -64,6 +69,7 @@ const Checkout = () => {
                 </Link>
               </div>
               <div>
+                <input type="text" value={user?._id} hidden {...register("userId")} />
                 <div className="mb-3">
                   <input
                     type="email"

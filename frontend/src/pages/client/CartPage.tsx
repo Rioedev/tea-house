@@ -25,9 +25,9 @@ const CartPage = () => {
 
   const handleCartInfo = () => {
     const cartTemp: ICart[] = []
+    let count = 0
     for (const cart of cartState.carts) {
       const product = productState?.products?.find((product) => product._id == cart.productID)
-      let count = 0
       if (product) {
         cartTemp.push({
           productID: product?._id,
@@ -43,14 +43,6 @@ const CartPage = () => {
     }
     setCarts(cartTemp)
   }
-  // useEffect(() => {
-  //   const storeCart = JSON.parse(localStorage.getItem("cartItems")!)
-  //   console.log(storeCart);
-
-  //   if (storeCart) {
-  //     setCarts(storeCart)
-  //   }
-  // }, [])
   useEffect(() => {
     const updateCartInfoAndSetCarts = async () => {
       await handleCartInfo();
@@ -145,10 +137,9 @@ const CartPage = () => {
         </form>
       })}
       <div className="mt-[30px] mb-8 w-[470px] ml-auto">
-
         <div className="flex items-center justify-between">
           <Link
-            to="/checkout"
+            to=""
             className="bg-primary rounded-full text-white flex items-center border gap-1 py-3 px-5 font-bold hover:text-primary hover:bg-white hover:border-primary"
           >
             <svg
@@ -168,7 +159,7 @@ const CartPage = () => {
             Tiếp tục mua hàng
           </Link>
           <Link
-            to=""
+            to="/checkout"
             className="bg-primary rounded-full text-white flex items-center border gap-1 py-3 px-5 font-bold hover:text-primary hover:bg-white hover:border-primary"
           >
             <svg
