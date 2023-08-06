@@ -48,7 +48,6 @@ export const fetchOrderAction = () => {
     return async (dispatch: getOrderDispatchType) => {
         try {
             const { data } = await getAll()
-            // console.log(data);
 
             dispatch({
                 type: "getAll-Order",
