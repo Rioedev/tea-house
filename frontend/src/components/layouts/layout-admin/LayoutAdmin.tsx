@@ -3,13 +3,13 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const LayoutAdmin = () => {
-  // const user = JSON.parse(localStorage.getItem("user") as string);
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (user?.role !== "admin") {
-  //     return navigate("/");
-  //   }
-  // }, [navigate]);
+  const user = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      return navigate("/");
+    }
+  }, [navigate]);
   return (
     <div>
       <AsideAdmin></AsideAdmin>

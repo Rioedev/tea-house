@@ -26,22 +26,16 @@ const LoginPage = () => {
 
   const dispatch: Dispatch<any> = useDispatch();
 
-  const signin = async (user: SigninForm) => {
+  const signin = async (data: SigninForm) => {
     // const userState = useSelector((state: IRootState) => state.users);
     try {
-      const data = await dispatch(signIn(user));
-      console.log(data);
-
-      // setUser({
-      //   abc.accessToken,
-      //   ...user,
-      // });
-      // console.log(data);
+      const datas = await dispatch(signIn(data));
+      const { accessToken, user } = datas;
+      setUser({ accessToken, ...user });
       toast.success("Đăng nhập thành công");
-      // navigate("/admin");
+      navigate("/admin");
     } catch (error) {
       toast.error("Đăng nhập thất bại");
-      console.log(error);
     }
   };
 
