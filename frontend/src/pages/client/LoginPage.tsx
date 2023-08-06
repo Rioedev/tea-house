@@ -38,20 +38,6 @@ const LoginPage = () => {
       toast.error("Đăng nhập thất bại");
       console.log(error);
     }
-    const signedInUser = userState.users; // Thay 'user' bằng trường thông tin người dùng trong state tùy vào cấu trúc state của bạn
-    console.log(signedInUser);
-
-    if (signedInUser) {
-      // Lưu thông tin người dùng vào local storage
-      setUser(signedInUser);
-
-      // Đăng nhập thành công, điều hướng đến trang "/admin"
-      navigate("/admin");
-    } else {
-      // Xử lý trường hợp không có thông tin người dùng sau khi đăng nhập
-      // toast.error("Đăng nhập thất bại");
-      // console.log("Không có thông tin người dùng sau khi đăng nhập");
-    }
   };
 
   return (
