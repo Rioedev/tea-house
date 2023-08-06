@@ -12,24 +12,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 
 const Header = () => {
+  const user = JSON.parse(localStorage.getItem("user")!);
+  const userName = JSON.parse(localStorage.getItem("user")!)?.name;
+  const logOut = () => {
+    localStorage.clear();
+  };
   const productState = useSelector((state: IRootState) => state.products);
   const categoryState = useSelector((state: IRootState) => state.categories);
   const oneCategotyState = useSelector((state: IRootState) => state.category);
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data: { name: string }) => {
     console.log(data.name);
-
     try {
       await dispatch(fetchProducByNametAction(data.name));
-      // if (product) {
-
-      // }
       alert("Tìm kiếm sản phẩm thành công");
       navigate("/product-all");
     } catch (error) {
@@ -106,13 +103,23 @@ const Header = () => {
                   </svg>
                   Tài khoản
                 </p>
-                <div className="acc-verify opacity-0 text-black invisible absolute w-[110px] bg-white shadow-md py-2 px-4 rounded-md top-full left-0 transition-all duration-300">
+                <div className="acc-verify opacity-0 text-black invisible absolute min-w-[125px] bg-white shadow-md py-2 px-4 rounded-md top-full left-0 transition-all duration-300">
                   <ul className="product-item">
                     <li className="mb-2 font-semibold hover:text-primary">
-                      <Link to="/login">Đăng nhập</Link>
+                      {userName ? (
+                        <Link to="">Xin chào: {userName}</Link>
+                      ) : (
+                        <Link to="/login">Đăng nhập</Link>
+                      )}
                     </li>
-                    <li className=" font-semibold hover:text-primary">
-                      <Link to="/register">Đăng ký</Link>
+                    <li className="font-semibold hover:text-primary">
+                      {user ? (
+                        <Link onClick={() => logOut()} to="/register">
+                          Đăng xuất
+                        </Link>
+                      ) : (
+                        <Link to="/register">Đăng ký</Link>
+                      )}
                     </li>
                   </ul>
                 </div>

@@ -1,5 +1,4 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
-
 import thunk from "redux-thunk";
 import productReducer, {
   IOneProductState,
@@ -13,14 +12,6 @@ import categoryReducer, {
 } from "./categories/Reducer";
 import userReducer, { IUserState } from "./user/Reducer";
 
-const rootReducer = combineReducers({
-  products: productReducer,
-  product: productReducer,
-  categories: categoryReducer,
-  category: categoryReducer,
-  users: userReducer,
-});
-
 export interface IRootState {
   products: IProductState;
   product: IOneProductState;
@@ -29,6 +20,18 @@ export interface IRootState {
   orders: IOrderState;
   order: IOneOrderState;
   orderDetails: IOrderDetailState;
+  users: IUserState;
 }
+
+const rootReducer = combineReducers({
+  products: productReducer,
+  product: productReducer,
+  categories: categoryReducer,
+  category: categoryReducer,
+  orders: orderReducer,
+  order: orderReducer,
+  orderDetails: orderDetailReducer,
+  users: userReducer,
+});
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
