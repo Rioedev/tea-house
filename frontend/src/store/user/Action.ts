@@ -53,15 +53,16 @@ export const signIn = (user: SigninForm) => {
   return async (dispatch: SignInDispatchType) => {
     try {
       const { data } = await signin(user);
-
-      console.log(data);
-
       dispatch({
         type: "signin",
-        payload: { user: data },
+        payload: data,
       });
+
+      // Trả về giá trị data để nó được sử dụng trong hàm signIn
+      return data;
     } catch (error) {
-      console.log(error);
+      console.log("Error in signIn:", error);
+      throw error; // Ném lỗi để xử lý ở nơi gọi hàm signIn
     }
   };
 };
