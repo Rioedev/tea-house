@@ -1,39 +1,55 @@
 import { orderForm, orderSchema } from "@/model/order";
 import { IRootState } from "@/store";
+import { ICart } from "@/store/cart/Reducer";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
-
+import { useState, useEffect } from 'react'
+import { IOrder, addOrderAction } from "@/store/order/Action";
+import { IUser } from "@/store/user/Action";
 const Checkout = () => {
   const dispatch: Dispatch<any> = useDispatch()
   const categotyState = useSelector((state: IRootState) => state.categories)
+  const order = useSelector((state: IRootState) => state.order)
   const navigate = useNavigate();
+  const [carts, setCarts] = useState<ICart[]>([])
+  const [total, setTotal] = useState<number>(0)
+  const [user, setUser] = useState<IUser>()
+  const cartStore = JSON.parse(localStorage.getItem("cartItems")!)
+  useEffect(() => {
+    setCarts(cartStore)
+  }, [])
+  useEffect(() => {
+    let count = 0
+    carts.map((cart, index) => {
+      count += cart.quantity * cart.price
+    })
+    setTotal(count)
+    const userStore = JSON.parse(localStorage.getItem("user")!)
+    if (userStore) {
+      setUser(userStore)
+    }
+  }, [carts])
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<orderForm>({
-    resolver: yupResolver(orderSchema),
-  });
+  } = useForm<IOrder>();
 
-  const onSubmit = async (order: orderForm) => {
+  const onSubmit = async (order: IOrder) => {
     try {
-      // const imagesArray = product.images.split(",").map((url) => url.trim());
-      // const productWithArrayImages = { ...product, images: imagesArray };
-      // await dispatch(addNewProductAction(productWithArrayImages));
-      console.log(order);
-      // navigate("/admin/product");
+      const addNewOrder = { ...order };
+      console.log(addNewOrder);
+      await dispatch(addOrderAction(addNewOrder));
       alert("Thêm sản phẩm thành công");
     } catch (error) {
       console.log(error);
     }
   };
-  // useEffect(() => {
-  //   dispatch(fetchCategoryAction())
-  // }, [])
+
   return (
     <div className="container-2">
       <form className="flex gap-[28px]" onSubmit={handleSubmit(onSubmit)}>
@@ -53,6 +69,7 @@ const Checkout = () => {
                 </Link>
               </div>
               <div>
+                <input type="text" value={user?._id} hidden {...register("userId")} />
                 <div className="mb-3">
                   <input
                     type="email"
@@ -67,7 +84,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     id="fullName"
-                    {...register('fullName')}
+                    {...register("fullName")}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Họ và tên"
                     required
@@ -127,32 +144,22 @@ const Checkout = () => {
           </div>
         </div>
         <div className="border-l-[1px] py-5 pl-5 w-[410px]">
-          <h1 className="text-xl font-bold mb-5">Đơn hàng (4 sản phẩm)</h1>
+          <h1 className="text-xl font-bold mb-5">Đơn hàng ({carts.length} sản phẩm)</h1>
           <div className="pt-7 border-t-[1px] border-b-[1px] pb-2">
-            <div className="mb-4 flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <div className="border rounded-lg relative w-[55px] h-[55px]">
-                  <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
-                  <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
-                    1
-                  </p>
+            {carts?.map((cart, index) => {
+              return <div className="mb-4 flex justify-between items-center">
+                <div className="flex gap-3 items-center">
+                  <div className="border rounded-lg relative w-[55px] h-[55px]">
+                    <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
+                    <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
+                      {cart.quantity}
+                    </p>
+                  </div>
+                  <h3 className="font-bold">{cart.name}</h3>
                 </div>
-                <h3 className="font-bold">Trà Phúc bồn tử</h3>
+                <p className="font-medium">{cart.quantity * cart.price}₫</p>
               </div>
-              <p className="font-medium">40.000₫</p>
-            </div>
-            <div className="mb-4 flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <div className="border rounded-lg relative w-[55px] h-[55px]">
-                  <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
-                  <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
-                    1
-                  </p>
-                </div>
-                <h3 className="font-bold">Trà Phúc bồn tử</h3>
-              </div>
-              <p className="font-medium">40.000₫</p>
-            </div>
+            })}
           </div>
           <div className="py-5 flex gap-3 border-b-[1px]">
             <input
@@ -167,7 +174,7 @@ const Checkout = () => {
           <div className="pt-7 pb-5 border-b-[1px]">
             <div className="flex justify-between mb-4">
               <span>Tạm tính:</span>
-              <span className="font-medium">145.000₫</span>
+              <span className="font-medium">{total}₫</span>
             </div>
             <div className="flex justify-between">
               <span>Phí vận chuyển:</span>
@@ -176,7 +183,7 @@ const Checkout = () => {
           </div>
           <div className="flex justify-between mb-4 items-center pt-5">
             <span className="text-lg font-semibold">Tổng cộng:</span>
-            <span className="text-primary text-2xl font-bold">185.000₫</span>
+            <span className="text-primary text-2xl font-bold">{total + 40000}₫</span>
           </div>
           <div className="flex justify-between">
             <Link

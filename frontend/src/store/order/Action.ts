@@ -1,7 +1,12 @@
 import { add, get, getAll, update } from "@/API/Orders";
 import { IOrderDetail } from "../oder-detail/Action";
 import { addOrderDispatchType, getOneOrderDispatchType, getOrderDispatchType, updateOrderDispatchType } from "./Type";
-
+import { IProduct } from "../product/Action"
+// import { AddCartDispatchType } from "./Type"
+// export interface AddCartAction {
+//     type: "add-cart"
+//     payload: IProduct
+// }
 export interface IOrder {
     _id: string,
     userId: string
@@ -44,6 +49,7 @@ export type UpdateOrderAction = {
     payload: IGetOneOrderPayload
 }
 
+
 export const fetchOrderAction = () => {
     return async (dispatch: getOrderDispatchType) => {
         try {
@@ -84,7 +90,6 @@ export const addOrderAction = (order: IOrder) => {
     return async (dispatch: addOrderDispatchType) => {
         try {
             const { data } = await add(order)
-            // console.log(data);
 
             dispatch({
                 type: "add-Order",
@@ -103,8 +108,6 @@ export const editOrderAction = (id: string | undefined, order: IOrder) => {
     return async (dispatch: updateOrderDispatchType) => {
         try {
             const { data } = await update(id, order)
-            // console.log(data);
-
             dispatch({
                 type: "update-Order",
                 payload: {
