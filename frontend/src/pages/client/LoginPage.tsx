@@ -26,23 +26,16 @@ const LoginPage = () => {
 
   const dispatch: Dispatch<any> = useDispatch();
 
-  const userState = useSelector((state: IRootState) => state.users);
-  const signin = async (user: SigninForm) => {
+  const signin = async (data: SigninForm) => {
+    // const userState = useSelector((state: IRootState) => state.users);
     try {
-      await dispatch(signIn(user));
-      // const signedInUser = userState.users;
-      // console.log(signedInUser);
-
-      // setUser({
-      //   abc.accessToken,
-      //   ...user,
-      // });
-      // console.log(data);
-      // toast.success("Đăng nhập thành công");
-      // navigate("/admin");
-      // return
+      const datas = await dispatch(signIn(data));
+      const { accessToken, user } = datas;
+      setUser({ accessToken, ...user });
+      toast.success("Đăng nhập thành công");
+      navigate("/admin");
     } catch (error) {
-      // toast.error("Đăng nhập thất bại");
+      toast.error("Đăng nhập thất bại");
       console.log(error);
     }
     const signedInUser = userState.users; // Thay 'user' bằng trường thông tin người dùng trong state tùy vào cấu trúc state của bạn
