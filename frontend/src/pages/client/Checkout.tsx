@@ -1,13 +1,60 @@
-import { Link } from "react-router-dom";
-
+import { orderForm, orderSchema } from "@/model/order";
+import { IRootState } from "@/store";
+import { ICart } from "@/store/cart/Reducer";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { Dispatch } from "redux";
+import { useState, useEffect } from 'react'
+import { IOrder, addOrderAction } from "@/store/order/Action";
 const Checkout = () => {
+  const dispatch: Dispatch<any> = useDispatch()
+  const categotyState = useSelector((state: IRootState) => state.categories)
+  const order = useSelector((state: IRootState) => state.order)
+  const navigate = useNavigate();
+  const [carts, setCarts] = useState<ICart[]>([])
+  const [total, setTotal] = useState<number>(0)
+  const cartStore = JSON.parse(localStorage.getItem("cartItems")!)
+  useEffect(() => {
+    let count = 0
+    carts.map((cart, index) => {
+      count += cart.quantity * cart.price
+    })
+    setTotal(count)
+    setCarts(cartStore)
+  }, [])
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<orderForm>({
+    resolver: yupResolver(orderSchema),
+  });
+
+  const onSubmit = async (order: IOrder) => {
+    try {
+      const addNewOrder = { ...order };
+      await dispatch(addOrderAction(addNewOrder));
+      alert("Thêm sản phẩm thành công");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // useEffect(() => {
+  //   dispatch(fetchCategoryAction())
+  // }, [])
   return (
     <div className="container-2">
-      <form className="flex gap-[28px]">
+      <form className="flex gap-[28px]" onSubmit={handleSubmit(onSubmit)}>
         <div className="">
-          <h1 className="text-3xl text-primary font-semibold mb-5 mt-5">
+          <Link
+            to="/"
+            className="text-3xl block text-primary font-semibold mb-5 mt-5"
+          >
             Tea House
-          </h1>
+          </Link>
           <div className="flex gap-[28px]">
             <div>
               <div className="flex items-center gap-32 mb-3">
@@ -21,6 +68,7 @@ const Checkout = () => {
                   <input
                     type="email"
                     id="email"
+                    {...register('email')}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Email"
                     required
@@ -29,7 +77,8 @@ const Checkout = () => {
                 <div className="mb-3">
                   <input
                     type="text"
-                    id="password"
+                    id="fullName"
+                    {...register("fullName")}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Họ và tên"
                     required
@@ -37,8 +86,9 @@ const Checkout = () => {
                 </div>
                 <div className="mb-3">
                   <input
-                    type="number"
-                    id="password"
+                    type="text"
+                    id="phoneNumber"
+                    {...register('phoneNumber')}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Số điện thoại"
                     required
@@ -47,7 +97,8 @@ const Checkout = () => {
                 <div className="mb-3">
                   <input
                     type="text"
-                    id="password"
+                    id="address"
+                    {...register('address')}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Địa chỉ"
                     required
@@ -55,8 +106,9 @@ const Checkout = () => {
                 </div>
                 <div className="mb-3">
                   <textarea
-                    id="message"
+                    id="note"
                     rows={4}
+                    {...register('note')}
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary"
                     placeholder="Ghi chú ..."
                   ></textarea>
@@ -82,67 +134,26 @@ const Checkout = () => {
                   </div>
                 </div>
               </div>
-              <div>
-                <div className="mb-3">
-                  <h3 className="text-lg font-bold">Thanh toán</h3>
-                </div>
-                <div>
-                  <div className="flex w-[350px] justify-between mb-3 bg-gray-50 border border-gray-300 text-gray-900 p-3 text-sm rounded-lg focus:ring-primary focus:border-primary">
-                    <div className="flex gap-3 items-center">
-                      <input
-                        type="radio"
-                        className="bg-gray-50 border border-gray-300 text-primary text-sm rounded-full focus:ring-primary focus:border-primary block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
-                        required
-                      />
-                      Thanh toán khi giao hàng (COD)
-                    </div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
         <div className="border-l-[1px] py-5 pl-5 w-[410px]">
-          <h1 className="text-xl font-bold mb-5">Đơn hàng (4 sản phẩm)</h1>
+          <h1 className="text-xl font-bold mb-5">Đơn hàng ({carts.length} sản phẩm)</h1>
           <div className="pt-7 border-t-[1px] border-b-[1px] pb-2">
-            <div className="mb-4 flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <div className="border rounded-lg relative w-[55px] h-[55px]">
-                  <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
-                  <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
-                    1
-                  </p>
+            {carts?.map((cart, index) => {
+              return <div className="mb-4 flex justify-between items-center">
+                <div className="flex gap-3 items-center">
+                  <div className="border rounded-lg relative w-[55px] h-[55px]">
+                    <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
+                    <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
+                      {cart.quantity}
+                    </p>
+                  </div>
+                  <h3 className="font-bold">{cart.name}</h3>
                 </div>
-                <h3 className="font-bold">Trà Phúc bồn tử</h3>
+                <p className="font-medium">{cart.quantity * cart.price}₫</p>
               </div>
-              <p className="font-medium">40.000₫</p>
-            </div>
-            <div className="mb-4 flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <div className="border rounded-lg relative w-[55px] h-[55px]">
-                  <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
-                  <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
-                    1
-                  </p>
-                </div>
-                <h3 className="font-bold">Trà Phúc bồn tử</h3>
-              </div>
-              <p className="font-medium">40.000₫</p>
-            </div>
+            })}
           </div>
           <div className="py-5 flex gap-3 border-b-[1px]">
             <input
@@ -157,7 +168,7 @@ const Checkout = () => {
           <div className="pt-7 pb-5 border-b-[1px]">
             <div className="flex justify-between mb-4">
               <span>Tạm tính:</span>
-              <span className="font-medium">145.000₫</span>
+              <span className="font-medium">{total}₫</span>
             </div>
             <div className="flex justify-between">
               <span>Phí vận chuyển:</span>
@@ -166,7 +177,7 @@ const Checkout = () => {
           </div>
           <div className="flex justify-between mb-4 items-center pt-5">
             <span className="text-lg font-semibold">Tổng cộng:</span>
-            <span className="text-primary text-2xl font-bold">185.000₫</span>
+            <span className="text-primary text-2xl font-bold">{total + 40000}₫</span>
           </div>
           <div className="flex justify-between">
             <Link

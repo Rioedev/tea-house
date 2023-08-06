@@ -1,6 +1,5 @@
 import BreadCrumb from "@/components/BreadCrumb";
 import { IRootState } from "@/store";
-import CartAction from "@/store/order/Action";
 import { fetchOneCategoryAction } from "@/store/categories/Action";
 import { IProduct, fetOneProductAction } from "@/store/product/Action";
 import { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { Dispatch } from "redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import CartPage from "./CartPage";
+import CartAction from "@/store/cart/Action";
 const ProductDetail = () => {
   const { id } = useParams()
   const dispatch: Dispatch<any> = useDispatch();
@@ -35,6 +35,8 @@ const ProductDetail = () => {
     }
   }, [count]);
   const handleAddCart = (product: IProduct) => {
+    // console.log("123");
+
     dispatch(CartAction(product))
   }
   return (

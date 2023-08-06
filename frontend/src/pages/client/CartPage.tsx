@@ -6,32 +6,37 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
-interface ICart {
+export interface ICart {
   productID: string
-  productName: string
+  name: string
   image: string
   quantity: number
   price: number
+  total: number
+  totalOrder: number
 }
 const CartPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const [count, setCount] = useState<number>(1);
   const productState = useSelector((state: IRootState) => state.products)
-  const orderState = useSelector((state: IRootState) => state.orders)
+  const cartState = useSelector((state: IRootState) => state.carts)
   const [carts, setCarts] = useState<ICart[]>([])
-  console.log(orderState);
+  console.log(carts);
 
   const handleCartInfo = () => {
     const cartTemp: ICart[] = []
-    for (const order of orderState.orders) {
-      const product = productState?.products?.find((product) => product._id == order.productID)
+    for (const cart of cartState.carts) {
+      const product = productState?.products?.find((product) => product._id == cart.productID)
+      let count = 0
       if (product) {
         cartTemp.push({
           productID: product?._id,
-          productName: product?.name,
-          image: order.image,
-          quantity: order.quantity,
-          price: order.price
+          name: product?.name,
+          image: cart.image,
+          quantity: cart.quantity,
+          price: cart.price,
+          total: cart.quantity * product.price,
+          totalOrder: count += cart.quantity * product.price
         })
         localStorage.setItem("cartItems", JSON.stringify(cartTemp))
       }
@@ -55,25 +60,26 @@ const CartPage = () => {
       }
     }
     updateCartInfoAndSetCarts();
-  }, [orderState])
-  const handleDec = (index: number) => {
-    setCarts(prevCarts => {
-      const updateCarts = [...prevCarts];
-      if (updateCarts[index].quantity > 1) {
-        updateCarts[index].quantity -= 1;
-      }
-      return updateCarts;
-    });
-  }
-  const handleIncre = (index: number) => {
-    const updateCarts = [...carts]
-    console.log(updateCarts[index].quantity);
-
-    if (updateCarts[index].quantity >= 1) {
-      updateCarts[index].quantity += 1
-      setCarts(updateCarts)
-    }
-  }
+  }, [cartState])
+  useEffect(() => {
+    dispatch(fetchProductAction())
+  }, [dispatch])
+  // const handleDec = (index: number) => {
+  //   setCarts(prevCarts => {
+  //     const updateCarts = [...prevCarts];
+  //     if (updateCarts[index].quantity > 1) {
+  //       updateCarts[index].quantity -= 1;
+  //     }
+  //     return updateCarts;
+  //   });
+  // }
+  // const handleIncre = (index: number) => {
+  //   const updateCarts = [...carts]
+  //   if (updateCarts[index].quantity >= 1) {
+  //     updateCarts[index].quantity += 1
+  //     setCarts(updateCarts)
+  //   }
+  // }
   return (
     <div className="container">
       <BreadCrumb></BreadCrumb>
@@ -84,14 +90,14 @@ const CartPage = () => {
             <div className="p-[35px] border-b-[1px] flex justify-between items-center border-gray-200">
               <img src={cart.image} className="w-[98px] h-[98px]" />
               <div>
-                <h2 className="mb-2 font-bold text-lg">{cart.productName}</h2>
+                <h2 className="mb-2 font-bold text-lg">{cart.name}</h2>
                 <p className="text-primary font-bold">{cart.price}</p>
               </div>
               <div className="border border-gray-200 flex items-center gap-8 py-4 px-3">
                 <button
                   type="button"
                   className="rounded-full font-bold bg-gray-500 text-white w-4 h-4"
-                  onChange={() => handleDec(index)}
+                  // onChange={() => handleDec(index)}
                   disabled={cart.quantity <= 1}
                 >
                   -
@@ -106,13 +112,13 @@ const CartPage = () => {
                 <button
                   type="button"
                   className="rounded-full font-bold bg-gray-500 text-white w-4 h-4"
-                  onClick={() => handleIncre(index)}
+                // onClick={() => handleIncre(index)}
                 >
                   +
                 </button>
               </div>
               <div>
-                <p className="text-primary font-bold">40.000₫</p>
+                <p className="text-primary font-bold">{cart.total}</p>
               </div>
               <button>
                 <svg
@@ -132,16 +138,17 @@ const CartPage = () => {
               </button>
             </div>
           </Link>
+          <div className="flex items-baseline justify-between mb-8">
+            <h2 className="font-bold text-lg">Tổng tiền</h2>
+            <p className="text-primary font-bold">{cart.totalOrder}</p>
+          </div>
         </form>
       })}
       <div className="mt-[30px] mb-8 w-[470px] ml-auto">
-        <div className="flex items-baseline justify-between mb-8">
-          <h2 className="font-bold text-lg">Tổng tiền</h2>
-          <p className="text-primary font-bold">80.000₫</p>
-        </div>
+
         <div className="flex items-center justify-between">
           <Link
-            to=""
+            to="/checkout"
             className="bg-primary rounded-full text-white flex items-center border gap-1 py-3 px-5 font-bold hover:text-primary hover:bg-white hover:border-primary"
           >
             <svg

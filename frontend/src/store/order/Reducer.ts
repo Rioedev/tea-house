@@ -1,46 +1,50 @@
-import { AddCartAction } from "./Action"
-
-export interface IOrder {
-    productID: string
-    quantity: number
-    image: string
-    name: string
-    price: number
-    totalPrice: number
-}
+import { AddOrderAction, GetOneOrderAction, GetOrdersAction, IOrder, UpdateOrderAction } from "./Action";
 
 export interface IOrderState {
     orders: IOrder[]
+}
+
+export interface IOneOrderState {
+    order: IOrder
 }
 
 const initOrderState: IOrderState = {
     orders: []
 }
 
-const orderReducer = (state: IOrderState = initOrderState, action: AddCartAction): IOrderState => {
+const initOneOrderState: IOneOrderState = {
+    order: {} as IOrder
+}
+
+type ICombinedOrderAction = GetOrdersAction | GetOneOrderAction | AddOrderAction | UpdateOrderAction
+type ICombinedOrderState = IOrderState | IOneOrderState
+
+const orderReducer = (state: ICombinedOrderState = initOrderState && initOneOrderState, action: ICombinedOrderAction) => {
     switch (action.type) {
-        case "add-cart":
-            const orderExistOrder = state.orders.findIndex(order => order.productID === action.payload._id)
-            if (orderExistOrder === -1) {
-                state = {
-                    ...state,
-                    orders: [{
-                        productID: action.payload._id,
-                        name: action.payload.name,
-                        quantity: 1,
-                        price: action.payload.price,
-                        image: action.payload.images?.[0],
-                        totalPrice: 0
-                    }, ...state.orders]
-                }
-            } else {
-                state.orders[orderExistOrder].quantity += 1
-                state = {
-                    ...state,
-                    orders: state.orders
-                }
+        case "getAll-Order":
+            state = {
+                ...state,
+                orders: action.payload.orders
             }
-            break
+            break;
+        case "getOne-Order":
+            state = {
+                ...state,
+                order: action.payload.order
+            }
+            break;
+        case "add-Order":
+            state = {
+                ...state,
+                order: action.payload.order
+            }
+            break;
+        case "update-Order":
+            state = {
+                ...state,
+                order: action.payload.order
+            }
+            break;
     }
     return state
 }

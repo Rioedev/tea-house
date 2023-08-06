@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "swiper/css";
+import "react-toastify/dist/ReactToastify.css";
 import LayoutClient from "./components/layouts/layout-client/LayoutClient";
 import HomePage from "./pages/client/HomePage";
 import ProductDetail from "./pages/client/productDetail";
@@ -40,10 +41,10 @@ function App() {
           <Route path="update-product/:id" element={<UpdateProduct />}></Route>
           <Route path="category" element={<ListCategory />}></Route>
           <Route path="add-category" element={<AddCategory />}></Route>
-          <Route path="update-category" element={<UpdateCategory />}></Route>
+          <Route path="update-category/:id" element={<UpdateCategory />}></Route>
           <Route path="user" element={<ListUser />}></Route>
           <Route path="order" element={<ListOrder />}></Route>
-          <Route path="update-order/:id" element={<UpdateOrder />}></Route>
+          <Route path="order/:id" element={<UpdateOrder />}></Route>
         </Route>
       </Routes>
     </>

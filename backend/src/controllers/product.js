@@ -4,12 +4,11 @@ import { productSchema } from "../schemas/product";
 // /products?search=huiuhujj
 export const getAll = async (req, res) => {
   // req.query._sort => price
-  const a = req.query.search
   const {
     _page = 1,
-    _limit = 10,
+    _limit = 100,
     _sort = "createdAt",
-    _order = "asc",
+    _order = "desc",
     _search
   } = req.query;
 
