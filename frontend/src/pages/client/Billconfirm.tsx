@@ -273,12 +273,20 @@ const Billconfirm = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={addOrderDetail} className="text-white uppercase bg-primary p-4 rounded-lg min-w-[120px]">
-                Trang chủ
-            </button>
-            <button onClick={addOrderDetail} className="text-white uppercase bg-primary p-4 rounded-lg min-w-[120px]">
-                Đơn hàng của bạn
-            </button>
+            <div className="text-center mt-10 mb-10">
+                <button
+                    onClick={addOrderDetail}
+                    className="text-white uppercase bg-primary p-4 rounded-lg min-w-[120px]"
+                >
+                    Trang chủ
+                </button>
+                <button
+                    onClick={addOrderDetail}
+                    className="text-white ml-7 uppercase bg-primary p-4 rounded-lg min-w-[120px]"
+                >
+                    Đơn hàng của bạn
+                </button>
+            </div>
             {/* <button onClick={addOrderDetail}>Đơn hàng của bạn</button>
             <button onClick={addOrderDetail}>Trang chủ</button> */}
         </div>

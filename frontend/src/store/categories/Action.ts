@@ -47,7 +47,7 @@ export const fetchCategoryAction = () => {
     return async (dispatch: getListCategoryDispatchType) => {
         try {
             const { data } = await getAllCategory()
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "get-category",
@@ -64,7 +64,7 @@ export const fetchOneCategoryAction = (id: string | undefined) => {
     return async (dispatch: getOneCategoryDispatchType) => {
         try {
             const { data: { category } } = await getOneCateogrory(id)
-            console.log(category);
+            // console.log(category);
 
             dispatch({
                 type: "getOne-category",
@@ -83,7 +83,7 @@ export const addNewCategoryAction = (category: ICategory) => {
     return async (dispatch: addCategoryDispatchType) => {
         try {
             const { data } = await addCategory(category)
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "add-category",
@@ -102,7 +102,7 @@ export const editCategoryAction = (id: string | number, category: ICategory) => 
     return async (dispatch: updateCategoryDispatchType) => {
         try {
             const { data } = await updateCategory(id, category)
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "update-category",

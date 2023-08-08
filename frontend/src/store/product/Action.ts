@@ -72,7 +72,7 @@ export const fetchProducByNametAction = (name: string) => {
             const { data } = await getAllByName(name)
             // const { data: product } = await getAll()
             // console.log(product);
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "getAllByName-product",
@@ -90,7 +90,7 @@ export const fetOneProductAction = (id: string | undefined) => {
     return async (dispatch: getOneDispatchType) => {
         try {
             const { data: { data } } = await getOne(id)
-            console.log(data);
+            // console.log(data);
             dispatch({
                 type: "getOne-product",
                 payload: {
@@ -108,7 +108,7 @@ export const addNewProductAction = (product: IProduct) => {
     return async (dispatch: addProductDispatchType) => {
         try {
             const { data } = await addProduct(product)
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "add-product",
@@ -127,7 +127,7 @@ export const editProductAction = (id: string | number, product: IProduct) => {
     return async (dispatch: updateProductDispatchType) => {
         try {
             const { data } = await updateProduct(id, product)
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "update-product",

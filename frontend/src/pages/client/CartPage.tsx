@@ -18,14 +18,16 @@ export interface ICart {
 const CartPage = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const [count, setCount] = useState<number>(1);
+  // const [total, setTotal] = useState<number>(0)
   const productState = useSelector((state: IRootState) => state.products)
   const cartState = useSelector((state: IRootState) => state.carts)
   const [carts, setCarts] = useState<ICart[]>([])
-  console.log(carts);
+  // console.log(carts);
 
   const handleCartInfo = () => {
     const cartTemp: ICart[] = []
     let count = 0
+
     for (const cart of cartState.carts) {
       const product = productState?.products?.find((product) => product._id == cart.productID)
       if (product) {
@@ -39,8 +41,14 @@ const CartPage = () => {
           totalOrder: count += cart.quantity * product.price
         })
         localStorage.setItem("cartItems", JSON.stringify(cartTemp))
+        // count += cart.quantity * product.price
+        // setTotal()
+        // console.log(count);
+
       }
     }
+    // console.log(count);
+    // setTotal(count)
     setCarts(cartTemp)
   }
   useEffect(() => {
@@ -79,7 +87,7 @@ const CartPage = () => {
       {carts?.map((cart, index) => {
         return <form>
           <Link to={`/productDetail/${cart.productID}`}>
-            <div className="p-[35px] border-b-[1px] flex justify-between items-center border-gray-200">
+            <div className="p-[35px] border-b-[1px] flex justify-between items-center border-gray-200" key={index}>
               <img src={cart.image} className="w-[98px] h-[98px]" />
               <div>
                 <h2 className="mb-2 font-bold text-lg">{cart.name}</h2>
@@ -130,12 +138,17 @@ const CartPage = () => {
               </button>
             </div>
           </Link>
-          <div className="flex items-baseline justify-between mb-8">
+          {carts.length - 1 == index && <div className="flex items-baseline justify-between mb-8">
             <h2 className="font-bold text-lg">Tổng tiền</h2>
             <p className="text-primary font-bold">{cart.totalOrder}</p>
-          </div>
+          </div>}
+
         </form>
       })}
+      {/* <div className="flex items-baseline justify-between mb-8">
+        <h2 className="font-bold text-lg">Tổng tiền</h2>
+        <p className="text-primary font-bold">{total}</p>
+      </div> */}
       <div className="mt-[30px] mb-8 w-[470px] ml-auto">
         <div className="flex items-center justify-between">
           <Link

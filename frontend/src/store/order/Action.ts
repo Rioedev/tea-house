@@ -76,7 +76,7 @@ export const fetchUserOrderAction = (id: string | undefined) => {
     return async (dispatch: getUserOrderDispatchType) => {
         try {
             const { data: { data } } = await getOrder(id)
-            console.log(data);
+            // console.log(data);
 
             dispatch({
                 type: "getAll-UserOrder",
