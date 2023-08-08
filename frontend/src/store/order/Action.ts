@@ -1,9 +1,14 @@
-import { add, get, getAll, update } from "@/API/Orders";
+import { add, get, getAll, getOrder, update } from "@/API/Orders";
 import { IOrderDetail } from "../oder-detail/Action";
-import { addOrderDispatchType, getOneOrderDispatchType, getOrderDispatchType, updateOrderDispatchType } from "./Type";
-
+import { addOrderDispatchType, getOneOrderDispatchType, getOrderDispatchType, getUserOrderDispatchType, updateOrderDispatchType } from "./Type";
+import { IProduct } from "../product/Action"
+// import { AddCartDispatchType } from "./Type"
+// export interface AddCartAction {
+//     type: "add-cart"
+//     payload: IProduct
+// }
 export interface IOrder {
-    _id: string,
+    _id: string | undefined,
     userId: string
     fullName: string;
     email: string;
@@ -26,6 +31,11 @@ interface IGetOneOrderPayload {
 
 export type GetOrdersAction = {
     type: 'getAll-Order'
+    payload: IGetOrderPayload
+}
+
+export type GetUserOrdersAction = {
+    type: 'getAll-UserOrder'
     payload: IGetOrderPayload
 }
 
@@ -61,6 +71,25 @@ export const fetchOrderAction = () => {
     }
 }
 
+// lấy hóa đơn của 1 user
+export const fetchUserOrderAction = (id: string | undefined) => {
+    return async (dispatch: getUserOrderDispatchType) => {
+        try {
+            const { data: { data } } = await getOrder(id)
+            console.log(data);
+
+            dispatch({
+                type: "getAll-UserOrder",
+                payload: {
+                    orders: data
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 export const fetchOneOrderAction = (id: string | undefined) => {
     return async (dispatch: getOneOrderDispatchType) => {
         try {
@@ -83,7 +112,7 @@ export const addOrderAction = (order: IOrder) => {
     return async (dispatch: addOrderDispatchType) => {
         try {
             const { data } = await add(order)
-            // console.log(data);
+            console.log(data);
 
             dispatch({
                 type: "add-Order",

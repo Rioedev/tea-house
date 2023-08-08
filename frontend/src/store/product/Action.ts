@@ -10,10 +10,10 @@ export interface IProduct {
     categoryId: { _id: string, products: IProduct[] }
     deleted: boolean
 }
-
 interface IGetProductPayload {
     products: IProduct[]
 }
+
 
 interface IgetOneProductPayload {
     product: IProduct
@@ -53,9 +53,6 @@ export const fetchProductAction = () => {
     return async (dispatch: getListDispatchType) => {
         try {
             const { data } = await getAll()
-            // const { data: product } = await getAll()
-            // console.log(product);
-
             dispatch({
                 type: "getAll-product",
                 payload: {

@@ -20,6 +20,8 @@ import ListUser from "./pages/admin/user/ListUser";
 import ListOrder from "./pages/admin/order/ListOrder";
 import UpdateOrder from "./pages/admin/order/UpdateOrder";
 import Checkout from "./pages/client/Checkout";
+import Billconfirm from "./pages/client/Billconfirm";
+import MyOrder from "./pages/client/MyOrder";
 
 function App() {
   return (
@@ -31,8 +33,10 @@ function App() {
           <Route index element={<HomePage />}></Route>
           <Route path="/productDetail/:id" element={<ProductDetail />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
+          <Route path="/billConfirm" element={<Billconfirm />}></Route>
           <Route path="/product-all" element={<ProductList />}></Route>
           <Route path="/menus" element={<Menus />}></Route>
+          <Route path="/my-order" element={<MyOrder />}></Route>
         </Route>
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/admin" element={<LayoutAdmin />}>

@@ -1,11 +1,27 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 
-import thunk from 'redux-thunk'
-import productReducer, { IOneProductState, IProductState } from "./product/Reducer";
-import categoryReducer, { ICategoryState, IOneCategoryState } from "./categories/Reducer";
+import thunk from "redux-thunk";
+import productReducer, {
+  IOneProductState,
+  IProductState,
+} from "./product/Reducer";
 import orderReducer, { IOneOrderState, IOrderState } from "./order/Reducer";
-import orderDetailReducer, { IOrderDetailState } from "./oder-detail/Reducer";
+import orderDetailReducer, { IOneOrderDetailState, IOrderDetailState } from "./oder-detail/Reducer";
+// import categoryReducer, {
+//     ICategoryState,
+//     IOneCategoryState,
+// } from "";
 import userReducer, { IUserState } from "./user/Reducer";
+import cartReducer, { ICartState } from "./cart/Reducer";
+import categoryReducer, { ICategoryState, IOneCategoryState } from "./categories/Reducer";
+export interface IRootState {
+  products: IProductState;
+  product: IOneProductState;
+  categories: ICategoryState;
+  category: IOneCategoryState;
+  users: IUserState;
+}
+
 export interface IRootState {
   products: IProductState
   product: IOneProductState
@@ -14,7 +30,9 @@ export interface IRootState {
   orders: IOrderState
   order: IOneOrderState
   orderDetails: IOrderDetailState
+  orderDetail: IOneOrderDetailState
   users: IUserState;
+  carts: ICartState
 }
 
 const rootReducer = combineReducers({
@@ -25,7 +43,9 @@ const rootReducer = combineReducers({
   orders: orderReducer,
   order: orderReducer,
   orderDetails: orderDetailReducer,
+  orderDetail: orderDetailReducer,
   users: userReducer,
+  carts: cartReducer
 })
 
 
