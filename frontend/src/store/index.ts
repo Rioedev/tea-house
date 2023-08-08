@@ -19,7 +19,6 @@ export interface IRootState {
   orders: IOrderState
   order: IOneOrderState
   orderDetails: IOrderDetailState
-  orderDetail: IOneOrderDetailState
   users: IUserState;
   carts: ICartState
 }
@@ -32,7 +31,6 @@ const rootReducer = combineReducers({
   orders: orderReducer,
   order: orderReducer,
   orderDetails: orderDetailReducer,
-  orderDetail: orderDetailReducer,
   users: userReducer,
   carts: cartReducer
 })

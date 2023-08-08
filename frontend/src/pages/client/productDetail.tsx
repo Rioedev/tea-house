@@ -17,7 +17,6 @@ const ProductDetail = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const getOneProduct = useSelector((state: IRootState) => state.product)
   const getOneCategory = useSelector((state: IRootState) => state.category)
-
   useEffect(() => {
     dispatch(fetOneProductAction(id));
   }, [dispatch, id]);
@@ -37,7 +36,6 @@ const ProductDetail = () => {
   }, [count]);
   const handleAddCart = (product: IProduct) => {
     // console.log("123");
-
     dispatch(CartAction(product))
   }
   const handleBuyCart = async (product: IProduct) => {
@@ -206,7 +204,7 @@ const ProductDetail = () => {
           >
             {getOneCategory?.category?.products?.map((productCate, index) => {
               return <SwiperSlide key={index}>
-                <a href={`/productDetail/${productCate._id}`} className="text-center">
+                <Link to={`/productDetail/${productCate._id}`} className="text-center">
                   <img
                     src={productCate.images?.[0]}
                     className="mx-auto mb-4 transition-all hover:scale-105 border border-1-[#ccc]"
@@ -223,7 +221,7 @@ const ProductDetail = () => {
                       </del>
                     </p>
                   </div>
-                </a>
+                </Link>
               </SwiperSlide>
             })}
           </Swiper>

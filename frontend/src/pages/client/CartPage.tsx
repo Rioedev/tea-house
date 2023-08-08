@@ -1,5 +1,6 @@
 import BreadCrumb from "@/components/BreadCrumb";
 import { IRootState } from "@/store";
+import { CartDec, CartDelete, CartIncrement } from "@/store/cart/Action";
 import { fetOneProductAction, fetchProductAction } from "@/store/product/Action";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,8 +21,8 @@ const CartPage = () => {
   const [count, setCount] = useState<number>(1);
   const productState = useSelector((state: IRootState) => state.products)
   const cartState = useSelector((state: IRootState) => state.carts)
+  // const cartIncre = useSelector((state: IRootState) => state.carts)
   const [carts, setCarts] = useState<ICart[]>([])
-  console.log(carts);
 
   const handleCartInfo = () => {
     const cartTemp: ICart[] = []
@@ -41,46 +42,39 @@ const CartPage = () => {
         localStorage.setItem("cartItems", JSON.stringify(cartTemp))
       }
     }
+    console.log(cartTemp);
     setCarts(cartTemp)
   }
   useEffect(() => {
-    const updateCartInfoAndSetCarts = async () => {
-      await handleCartInfo();
-      const storeCart = JSON.parse(localStorage.getItem("cartItems")!);
-      if (storeCart) {
-        setCarts(storeCart);
-      }
+    handleCartInfo();
+    const storeCart = JSON.parse(localStorage.getItem("cartItems")!);
+    if (storeCart) {
+      setCarts(storeCart);
     }
-    updateCartInfoAndSetCarts();
   }, [cartState])
   useEffect(() => {
     dispatch(fetchProductAction())
   }, [dispatch])
-  // const handleDec = (index: number) => {
-  //   setCarts(prevCarts => {
-  //     const updateCarts = [...prevCarts];
-  //     if (updateCarts[index].quantity > 1) {
-  //       updateCarts[index].quantity -= 1;
-  //     }
-  //     return updateCarts;
-  //   });
-  // }
-  // const handleIncre = (index: number) => {
-  //   const updateCarts = [...carts]
-  //   if (updateCarts[index].quantity >= 1) {
-  //     updateCarts[index].quantity += 1
-  //     setCarts(updateCarts)
-  //   }
-  // }
+  const handleIncreCart = (cart: ICart) => {
+    dispatch(CartIncrement(cart))
+  }
+  const handleDecCart = (cart: ICart) => {
+    dispatch(CartDec(cart))
+  }
+  const handleDeleteCart = (cart: ICart) => {
+    dispatch(CartDelete(cart))
+  }
   return (
     <div className="container">
       <BreadCrumb></BreadCrumb>
       <h1 className="font-bold uppercase mt-11 text-lg">Giỏ hàng của bạn</h1>
       {carts?.map((cart, index) => {
         return <form>
-          <Link to={`/productDetail/${cart.productID}`}>
+          <div key={index}>
             <div className="p-[35px] border-b-[1px] flex justify-between items-center border-gray-200">
-              <img src={cart.image} className="w-[98px] h-[98px]" />
+              <Link to={`/productDetail/${cart.productID}`}>
+                <img src={cart.image} className="w-[98px] h-[98px]" />
+              </Link>
               <div>
                 <h2 className="mb-2 font-bold text-lg">{cart.name}</h2>
                 <p className="text-primary font-bold">{cart.price}</p>
@@ -89,8 +83,7 @@ const CartPage = () => {
                 <button
                   type="button"
                   className="rounded-full font-bold bg-gray-500 text-white w-4 h-4"
-                  // onChange={() => handleDec(index)}
-                  disabled={cart.quantity <= 1}
+                  onClick={() => handleDecCart(cart)}
                 >
                   -
                 </button>
@@ -104,7 +97,7 @@ const CartPage = () => {
                 <button
                   type="button"
                   className="rounded-full font-bold bg-gray-500 text-white w-4 h-4"
-                // onClick={() => handleIncre(index)}
+                  onClick={() => handleIncreCart(cart)}
                 >
                   +
                 </button>
@@ -112,7 +105,7 @@ const CartPage = () => {
               <div>
                 <p className="text-primary font-bold">{cart.total}</p>
               </div>
-              <button>
+              <button type="button" onClick={() => handleDeleteCart(cart)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -129,7 +122,7 @@ const CartPage = () => {
                 </svg>
               </button>
             </div>
-          </Link>
+          </div>
           <div className="flex items-baseline justify-between mb-8">
             <h2 className="font-bold text-lg">Tổng tiền</h2>
             <p className="text-primary font-bold">{cart.totalOrder}</p>
