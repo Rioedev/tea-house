@@ -139,7 +139,7 @@ const CartPage = () => {
       <div className="mt-[30px] mb-8 w-[470px] ml-auto">
         <div className="flex items-center justify-between">
           <Link
-            to=""
+            to="/product-all"
             className="bg-primary rounded-full text-white flex items-center border gap-1 py-3 px-5 font-bold hover:text-primary hover:bg-white hover:border-primary"
           >
             <svg

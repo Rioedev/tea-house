@@ -1,5 +1,5 @@
-import { getAll } from "@/API/OrderDetails"
-import { getOrderDetailDispatchType } from "./Type"
+import { add, getAll } from "@/API/OrderDetails"
+import { addOrderDetailDispatchType, getOrderDetailDispatchType } from "./Type"
 
 export interface IOrderDetail {
     _id: string,
@@ -15,9 +15,18 @@ interface IOrderDetailPayload {
     orderDetails: IOrderDetail[]
 }
 
+interface IOneOrderDetailPayload {
+    orderDetail: IOrderDetail
+}
+
 export type GetOrderDetailAction = {
     type: "getAll-OrderDetail"
     payload: IOrderDetailPayload
+}
+
+export type AddOrderDetailAction = {
+    type: "add-OrderDetail"
+    payload: IOneOrderDetailPayload
 }
 
 export const fetchOrderDetailAction = (id: string | undefined) => {
@@ -36,3 +45,21 @@ export const fetchOrderDetailAction = (id: string | undefined) => {
     }
 }
 
+
+export const addOrderDetailAction = (orderDetail: IOrderDetail) => {
+    return async (dispatch: addOrderDetailDispatchType) => {
+        try {
+            const { data } = await add(orderDetail)
+            // console.log(data);
+
+            dispatch({
+                type: "add-OrderDetail",
+                payload: {
+                    orderDetail: orderDetail
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}

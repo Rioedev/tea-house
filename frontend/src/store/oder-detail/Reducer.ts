@@ -1,22 +1,36 @@
-import { GetOrderDetailAction, IOrderDetail } from "./Action"
+import { AddOrderDetailAction, GetOrderDetailAction, IOrderDetail } from "./Action"
 
 export interface IOrderDetailState {
     orderDetails: IOrderDetail[]
 }
 
-const initOrderState: IOrderDetailState = {
+export interface IOneOrderDetailState {
+    orderDetail: IOrderDetail
+}
+
+const initOrderDetailState: IOrderDetailState = {
     orderDetails: []
 }
 
-type ICombinedOrderDetailAction = GetOrderDetailAction
-type ICombinedOrderDetailState = IOrderDetailState
+const initOneOrderDetailState: IOneOrderDetailState = {
+    orderDetail: {} as IOrderDetail
+}
 
-const orderDetailReducer = (state: ICombinedOrderDetailState = initOrderState, action: ICombinedOrderDetailAction) => {
+type ICombinedOrderDetailAction = GetOrderDetailAction | AddOrderDetailAction
+type ICombinedOrderDetailState = IOrderDetailState | IOneOrderDetailState
+
+const orderDetailReducer = (state: ICombinedOrderDetailState = initOrderDetailState && initOneOrderDetailState, action: ICombinedOrderDetailAction) => {
     switch (action.type) {
         case "getAll-OrderDetail":
             state = {
                 ...state,
                 orderDetails: action.payload.orderDetails
+            }
+            break;
+        case "add-OrderDetail":
+            state = {
+                ...state,
+                orderDetail: action.payload.orderDetail
             }
             break;
     }

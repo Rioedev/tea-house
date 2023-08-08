@@ -12,24 +12,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 
 const Header = () => {
+  const user = JSON.parse(localStorage.getItem("user")!);
+  const userName = JSON.parse(localStorage.getItem("user")!)?.name;
+  const logOut = () => {
+    localStorage.clear();
+  };
   const productState = useSelector((state: IRootState) => state.products);
   const categoryState = useSelector((state: IRootState) => state.categories);
   const oneCategotyState = useSelector((state: IRootState) => state.category);
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data: { name: string }) => {
     console.log(data.name);
-
     try {
       await dispatch(fetchProducByNametAction(data.name));
-      // if (product) {
-
-      // }
       alert("Tìm kiếm sản phẩm thành công");
       navigate("/product-all");
     } catch (error) {
@@ -49,13 +46,13 @@ const Header = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
               className="w-5 h-5"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M20.25 3.75v4.5m0-4.5h-4.5m4.5 0l-6 6m3 12c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 014.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 00-.38 1.21 12.035 12.035 0 007.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 011.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 01-2.25 2.25h-2.25z"
               />
             </svg>
@@ -106,13 +103,23 @@ const Header = () => {
                   </svg>
                   Tài khoản
                 </p>
-                <div className="acc-verify opacity-0 text-black invisible absolute w-[110px] bg-white shadow-md py-2 px-4 rounded-md top-full left-0 transition-all duration-300">
+                <div className="acc-verify opacity-0 text-black invisible absolute min-w-[125px] bg-white shadow-md py-2 px-4 rounded-md top-full left-0 transition-all duration-300">
                   <ul className="product-item">
                     <li className="mb-2 font-semibold hover:text-primary">
-                      <Link to="/login">Đăng nhập</Link>
+                      {userName ? (
+                        <Link to="/my-order">Xin chào: {userName}</Link>
+                      ) : (
+                        <Link to="/login">Đăng nhập</Link>
+                      )}
                     </li>
-                    <li className=" font-semibold hover:text-primary">
-                      <Link to="/register">Đăng ký</Link>
+                    <li className="font-semibold hover:text-primary">
+                      {user ? (
+                        <Link onClick={() => logOut()} to="/register">
+                          Đăng xuất
+                        </Link>
+                      ) : (
+                        <Link to="/register">Đăng ký</Link>
+                      )}
                     </li>
                   </ul>
                 </div>

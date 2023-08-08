@@ -28,7 +28,7 @@ const ProductList = () => {
           {productState?.products?.map((product) =>
             <div className="product-item w-[263px] mb-[75px] relative" key={product._id}>
               <div className="border border-gray-200 mb-5">
-                <Link to="/productDetail">
+                <Link to={`/productDetail/${product._id}`}>
                   <img src={product.images} className="w-[261px] h-[261px]" />
                 </Link>
                 <Link

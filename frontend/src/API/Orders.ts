@@ -11,6 +11,11 @@ export const get = (id: string | undefined) => {
     return instence.get(`/orders/${id}`)
 }
 
+// lấy ra tất cả hóa đơn của 1 user
+export const getOrder = (id: string | undefined) => {
+    return instence.get(`/user_orders/${id}`)
+}
+
 // thêm 1 hóa đơn
 export const add = (order: IOrder) => {
     return instence.post(`/orders`, order)

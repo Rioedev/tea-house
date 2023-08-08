@@ -16,28 +16,25 @@ export const getOne = (id: string | undefined) => {
 }
 
 export const addProduct = (product: IProduct) => {
-    // return instence.post(`/products`, product, {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // })
-    return instence.post(`/products`, product)
+    return instence.post(`/products`, product, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
 }
 
 export const updateProduct = (id: string | number, product: IProduct) => {
-    // return instence.post(`/products`, product, {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // })
-    return instence.put(`/products/${id}`, product)
+    return instence.put(`/products/${id}`, product, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
 }
 
 export const deleteProduct = (id: string | number) => {
-    // return instence.post(`/products`, product, {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // })
-    return instence.delete(`/products/${id}`)
+    return instence.delete(`/products/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
 }

@@ -5,7 +5,7 @@ import { IProduct, fetOneProductAction } from "@/store/product/Action";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +13,7 @@ import CartPage from "./CartPage";
 import CartAction from "@/store/cart/Action";
 const ProductDetail = () => {
   const { id } = useParams()
+  const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const getOneProduct = useSelector((state: IRootState) => state.product)
   const getOneCategory = useSelector((state: IRootState) => state.category)
@@ -39,11 +40,17 @@ const ProductDetail = () => {
 
     dispatch(CartAction(product))
   }
+  const handleBuyCart = async (product: IProduct) => {
+    // console.log("123");
+
+    await dispatch(CartAction(product))
+    navigate('/cart')
+  }
   return (
     <>
       <div className="container">
-        <BreadCrumb></BreadCrumb>
-        <CartPage></CartPage>
+        {/* <BreadCrumb></BreadCrumb> */}
+        {/* <CartPage></CartPage> */}
         <div className="flex py-[28px]">
           <div className="flex flex-col">
             <div className="overflow-hidden max-w-[500px]">
@@ -124,7 +131,9 @@ const ProductDetail = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className="px-[22px] min-w-[250px] py-3 mr-[20px] text-[#fff] rounded-[40px] text-[18px] flex items-center justify-center bg-[#4d8a54] font-bold hover:bg-[#385e3e] transition-all ease-linear">
+                <button
+                  onClick={e => handleBuyCart(getOneProduct.product)}
+                  className="px-[22px] min-w-[250px] py-3 mr-[20px] text-[#fff] rounded-[40px] text-[18px] flex items-center justify-center bg-[#4d8a54] font-bold hover:bg-[#385e3e] transition-all ease-linear">
                   Mua ngay
                 </button>
               </div>
