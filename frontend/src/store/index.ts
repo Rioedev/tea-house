@@ -7,20 +7,9 @@ import productReducer, {
 } from "./product/Reducer";
 import orderReducer, { IOneOrderState, IOrderState } from "./order/Reducer";
 import orderDetailReducer, { IOneOrderDetailState, IOrderDetailState } from "./oder-detail/Reducer";
-// import categoryReducer, {
-//     ICategoryState,
-//     IOneCategoryState,
-// } from "";
 import userReducer, { IUserState } from "./user/Reducer";
 import cartReducer, { ICartState } from "./cart/Reducer";
 import categoryReducer, { ICategoryState, IOneCategoryState } from "./categories/Reducer";
-export interface IRootState {
-  products: IProductState;
-  product: IOneProductState;
-  categories: ICategoryState;
-  category: IOneCategoryState;
-  users: IUserState;
-}
 
 export interface IRootState {
   products: IProductState
