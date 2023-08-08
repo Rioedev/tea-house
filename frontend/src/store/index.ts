@@ -14,13 +14,13 @@ import orderDetailReducer, { IOrderDetailState } from "./oder-detail/Reducer";
 import userReducer, { IUserState } from "./user/Reducer";
 import cartReducer, { ICartState } from "./cart/Reducer";
 import categoryReducer, { ICategoryState, IOneCategoryState } from "./categories/Reducer";
-export interface IRootState {
-    products: IProductState;
-    product: IOneProductState;
-    categories: ICategoryState;
-    category: IOneCategoryState;
-    users: IUserState;
-}
+// export interface IRootState {
+//     products: IProductState;
+//     product: IOneProductState;
+//     categories: ICategoryState;
+//     category: IOneCategoryState;
+//     users: IUserState;
+// }
 
 // const rootReducer = combineReducers({
 //     products: productReducer,
@@ -45,6 +45,7 @@ export interface IRootState {
     orderDetails: IOrderDetailState
     users: IUserState;
     carts: ICartState
+    // cartIrement: ICartState
 }
 
 const rootReducer = combineReducers({
@@ -56,7 +57,8 @@ const rootReducer = combineReducers({
     order: orderReducer,
     orderDetails: orderDetailReducer,
     users: userReducer,
-    carts: cartReducer
+    carts: cartReducer,
+    // cartICrement: cartReducer
 })
 
 

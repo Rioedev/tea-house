@@ -150,7 +150,7 @@ const Checkout = () => {
               return <div className="mb-4 flex justify-between items-center">
                 <div className="flex gap-3 items-center">
                   <div className="border rounded-lg relative w-[55px] h-[55px]">
-                    <img src="./6.png" className="w-[50px] h-[50px] rounded-lg" />
+                    <img src={cart.image} className="w-[50px] h-[50px] rounded-lg" />
                     <p className="w-5 h-5 bg-primary absolute top-[-5px] right-[-5px] flex justify-center items-center text-sm text-white font-semibold rounded-full">
                       {cart.quantity}
                     </p>

@@ -1,10 +1,11 @@
 import { IRootState } from "@/store";
+import { ICart } from "@/store/cart/Reducer";
 import {
   fetchCategoryAction,
   fetchOneCategoryAction,
 } from "@/store/categories/Action";
 import { fetchProducByNametAction } from "@/store/product/Action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -15,6 +16,8 @@ const Header = () => {
   const productState = useSelector((state: IRootState) => state.products);
   const categoryState = useSelector((state: IRootState) => state.categories);
   const oneCategotyState = useSelector((state: IRootState) => state.category);
+  const [cartLenght, setCartLenght] = useState<ICart[]>([])
+  const cartState = useSelector((state: IRootState) => state.carts)
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const {
@@ -23,13 +26,8 @@ const Header = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data: { name: string }) => {
-    console.log(data.name);
-
     try {
       await dispatch(fetchProducByNametAction(data.name));
-      // if (product) {
-
-      // }
       alert("Tìm kiếm sản phẩm thành công");
       navigate("/product-all");
     } catch (error) {
@@ -40,6 +38,14 @@ const Header = () => {
   useEffect(() => {
     dispatch(fetchCategoryAction());
   }, []);
+  useEffect(() => {
+    // const cart: ICart[] = []
+    const getCartStore = JSON.parse(localStorage.getItem("cartItems")!)
+    if (getCartStore) {
+      // cart.push(cartState)
+      setCartLenght(getCartStore)
+    }
+  }, [])
   return (
     <div className="border-b-[1px]">
       <div className="bg-[#4d8a54] text-white text-sm py-2">
@@ -134,7 +140,7 @@ const Header = () => {
                     />
                   </svg>
                   <span className="rounded-full w-4 h-4 bg-white text-[#4d8a54] flex items-center justify-center font-semibold absolute top-3 right-16">
-                    0
+                    {cartState ? cartState.carts.length : 0}
                   </span>
                   Giỏ hàng
                 </Link>
