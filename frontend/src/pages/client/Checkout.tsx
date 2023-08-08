@@ -8,12 +8,13 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 import { useState, useEffect } from 'react'
-import { IOrder, addOrderAction } from "@/store/order/Action";
+import { IOrder, addOrderAction, fetchOrderAction } from "@/store/order/Action";
 import { IUser } from "@/store/user/Action";
+import { IOrderDetail } from "@/store/oder-detail/Action";
+import { add } from "@/API/OrderDetails";
+// import { add } from "@/API/Orders";
 const Checkout = () => {
   const dispatch: Dispatch<any> = useDispatch()
-  const categotyState = useSelector((state: IRootState) => state.categories)
-  const order = useSelector((state: IRootState) => state.order)
   const navigate = useNavigate();
   const [carts, setCarts] = useState<ICart[]>([])
   const [total, setTotal] = useState<number>(0)
@@ -39,16 +40,29 @@ const Checkout = () => {
     formState: { errors },
   } = useForm<IOrder>();
 
+  const orderState = useSelector((state: IRootState) => state.orders)
   const onSubmit = async (order: IOrder) => {
     try {
-      const addNewOrder = { ...order };
-      console.log(addNewOrder);
+      const addNewOrder = { ...order, userId: user?._id, totalMoney: total + 40000, status: 1 };
+
+      // console.log(addNewOrder);
       await dispatch(addOrderAction(addNewOrder));
-      alert("Thêm sản phẩm thành công");
+
+
+      // await dispatch(fetchOrderAction())
+      // if (orderState.orders != undefined) {
+
+
+      //     // console.log(orderState.orders);
+
+      alert("Thanh toán thành công");
+      navigate('/billConfirm')
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+  }, [])
 
   return (
     <div className="container-2">
@@ -109,6 +123,7 @@ const Checkout = () => {
                     placeholder="Địa chỉ"
                     required
                   />
+
                 </div>
                 <div className="mb-3">
                   <textarea

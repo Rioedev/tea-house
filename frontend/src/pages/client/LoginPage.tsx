@@ -36,6 +36,7 @@ const LoginPage = () => {
       navigate("/admin");
     } catch (error) {
       toast.error("Đăng nhập thất bại");
+      console.log(error);
     }
   };
 

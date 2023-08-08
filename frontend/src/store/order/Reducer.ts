@@ -1,4 +1,4 @@
-import { AddOrderAction, GetOneOrderAction, GetOrdersAction, IOrder, UpdateOrderAction } from "./Action";
+import { AddOrderAction, GetOneOrderAction, GetOrdersAction, GetUserOrdersAction, IOrder, UpdateOrderAction } from "./Action";
 
 export interface IOrderState {
     orders: IOrder[]
@@ -16,7 +16,7 @@ const initOneOrderState: IOneOrderState = {
     order: {} as IOrder
 }
 
-type ICombinedOrderAction = GetOrdersAction | GetOneOrderAction | AddOrderAction | UpdateOrderAction
+type ICombinedOrderAction = GetOrdersAction | GetOneOrderAction | GetUserOrdersAction | AddOrderAction | UpdateOrderAction
 type ICombinedOrderState = IOrderState | IOneOrderState
 
 const orderReducer = (state: ICombinedOrderState = initOrderState && initOneOrderState, action: ICombinedOrderAction) => {
@@ -31,6 +31,12 @@ const orderReducer = (state: ICombinedOrderState = initOrderState && initOneOrde
             state = {
                 ...state,
                 order: action.payload.order
+            }
+            break;
+        case "getAll-UserOrder":
+            state = {
+                ...state,
+                orders: action.payload.orders
             }
             break;
         case "add-Order":

@@ -75,11 +75,6 @@ const cartReducer = (state: ICartState = initCartState, action: ICombinedCartAct
                     let setCartLocal = JSON.parse(localStorage.getItem("cartItems")!)
                     state.carts = setCartLocal.filter((product: ICart) => product.productID != state.carts[cartDec].productID)
                     localStorage.setItem("cartItems", JSON.stringify(state.carts))
-                    // state = {
-                    //     ...state,
-                    //     carts: state.carts
-                    // }
-                    // setCartLocal = state.carts
                 } else {
                     state.carts[cartDec].quantity++
                 }
